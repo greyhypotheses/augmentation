@@ -4,5 +4,6 @@ pytest
 coverage
 pytest-cov
 pylint
+scikit-image
 pandas
 PyYAML
