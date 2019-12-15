@@ -1,6 +1,8 @@
 import os
 import dask.delayed
 import cv2
+import skimage
+import skimage.io
 
 
 @dask.delayed
@@ -27,15 +29,15 @@ def alias(filename, angle):
 @dask.delayed
 def read(filename):
     """
-    :type filename: numpy.str_
+    :type filename: str
 
-    :params filename: The name of the image file, including the relative
-                      path if applicable.
+    :params filename: The image URL String, or a string accepted by skimage.io.imread()
 
     :return
-          An image. numpy.ndarray ~ (rows, columns, channels)
+          An image. numpy.ndarray ~ shape(rows, columns, channels)
     """
-    return cv2.imread(filename, cv2.IMREAD_COLOR)
+
+    return skimage.io.imread(filename)
 
 
 @dask.delayed
