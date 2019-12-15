@@ -1,0 +1,7 @@
+image:
+  rows: 224
+  columns: 224
+  remnant: 8
+  rotations: [0, 90.0, 180.0, 270.0]
+directories:
+  source:
