@@ -4,6 +4,8 @@ pytest==5.3.1
 coverage==4.5.4
 pytest-cov==2.8.1
 pylint==2.4.4
-## The following are for message suppression, they were added by pip freeze:
+scikit-image==0.15.0
+## The following requirements were added by pip freeze, and retained for debugging:
 pandas==0.25.3
 PyYAML==5.1.2
+
