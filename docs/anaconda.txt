@@ -1,3 +1,3 @@
-﻿conda create --prefix ~/Anaconda3/envs/augmentation python=3.7.5 dask pytest coverage pytest-cov pylint
+﻿conda create --prefix ~/Anaconda3/envs/augmentation python=3.7.5 dask pytest coverage pytest-cov pylint scikit-image
 conda activate augmentation
 pip install opencv-python
