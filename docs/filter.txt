@@ -1,0 +1,8 @@
+dask
+opencv-python
+pytest
+coverage
+pytest-cov
+pylint
+pandas
+PyYAML
