@@ -8,11 +8,10 @@ import skimage.io
 @dask.delayed
 def alias(filename, angle):
     """
-    :type filename: numpy.str_
+    :type filename: str
     :type angle: int
 
-    :params filename: The name of the image file, including the relative
-                      path if applicable
+    :params filename: The image URL String, or a string accepted by skimage.io.imread()
     :params angle: The angle of rotation, in degrees.
 
     :return
@@ -43,7 +42,7 @@ def read(filename):
 @dask.delayed
 def save(tensor, filename):
     """
-    :type tensor: numpy.ndarray
+    :type tensor: numpy.ndarray ~ shape(rows, columns, channels)
     :type filename: str
 
     :param tensor:
