@@ -7,7 +7,7 @@ import yaml
 class Cfg:
 
     def __init__(self):
-        self.directory = os.path.split(os.path.abspath(__file__))[0]
+        self.path = os.path.split(os.path.abspath(__file__))[0]
 
     def variables(self):
         """
@@ -15,7 +15,7 @@ class Cfg:
         :return:
         """
 
-        with open(os.path.join(self.directory, 'variables.yml'), 'r') as file:
+        with open(os.path.join(self.path, 'variables.yml'), 'r') as file:
             variables = yaml.safe_load(file)
 
         return dotmap.DotMap(variables)
@@ -26,4 +26,4 @@ class Cfg:
         :return:
         """
 
-        return self.directory
+        return self.path
