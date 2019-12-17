@@ -10,32 +10,23 @@ class Steps:
 
     def __init__(self):
         """
-        Herein, the common variables of this projects are imported for the defined steps.
-
+        Common variables
         """
 
         # An instance of variables
         variables = cfg.Cfg().variables()
 
-        # Remnant: Temporary extra length added to the required/target image size
-        remnant = variables.image.remnant
-
         # Strip: The length that would subsequently be stripped off each edge of an image
-        self.strip = int(remnant/2)
+        self.strip = variables.image.strip
 
-        # The required/target image size
-        image_size = (variables.image.rows, variables.image.columns)
-
-        # The temporary image size.  In order to avoid edge artefacts the image is resized to a size
-        # slightly greater than required, then clipped after all other transformation steps.
-        self.temporary_size = (image_size[0] + remnant, image_size[1] + remnant)
+        # The temporary image size.
+        self.temporary_size = variables.image.temporary_size
 
         # The centre point about which a rotation should occur
-        rows, columns = self.temporary_size[0], self.temporary_size[1]
-        self.centre = (columns/2, rows/2)
+        self.centre = variables.image.centre
 
         # Save path
-        self.save_path = os.path.join(os.getcwd(), variables.directories.augmented.images)
+        self.path = variables.directories.augmented.path
 
     def augment(self, filename, angle):
         """
@@ -69,4 +60,4 @@ class Steps:
         image_name = file.alias(filename, angle)
 
         # Save
-        file.save(clipped, os.path.join(self.save_path, image_name)).compute()
+        file.save(clipped, os.path.join(self.path, image_name)).compute()
