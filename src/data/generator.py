@@ -6,7 +6,7 @@ import os
 import cfg.cfg as cfg
 
 
-class Steps:
+class Generator:
 
     def __init__(self):
         """
@@ -17,18 +17,18 @@ class Steps:
         variables = cfg.Cfg().variables()
 
         # Strip: The length that would subsequently be stripped off each edge of an image
-        self.strip = variables.image.strip
+        self.strip = variables.augmentation.images.strip
 
         # The temporary image size.
-        self.temporary_size = variables.image.temporary_size
+        self.temporary_size = variables.augmentation.images.temporary_size
 
         # The centre point about which a rotation should occur
-        self.centre = variables.image.centre
+        self.centre = variables.augmentation.images.centre
 
         # Save path
-        self.path = variables.directories.augmented.path
+        self.path = variables.target.images.path
 
-    def augment(self, filename, angle):
+    def images(self, filename, angle):
         """
         The image augmentation steps, which are executed via Dask
 
