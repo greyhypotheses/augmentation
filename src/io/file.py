@@ -5,7 +5,6 @@ import skimage
 import skimage.io
 
 
-@dask.delayed
 def alias(filename, angle):
     """
     :type filename: str
