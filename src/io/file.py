@@ -21,7 +21,7 @@ def alias(filename, angle):
     assert (angle >= 0) & (angle < 360), "The angle of rotation must be an integer >= 0 but < 360"
 
     baseline = os.path.splitext(os.path.basename(filename))[0]
-    return baseline + '_' + str(angle).zfill(3) + '.png'
+    return baseline + '-' + str(angle).zfill(3) + '.png'
 
 
 @dask.delayed
