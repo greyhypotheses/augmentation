@@ -36,7 +36,7 @@ class Cfg:
 
         # Save
         variables['target']['images']['path'] = os.path.join(os.path.split(os.getcwd())[0],
-                                                                   variables['target']['images']['directory'])
+                                                             variables['target']['images']['directory'])
 
         return variables
 
