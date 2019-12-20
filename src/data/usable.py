@@ -1,8 +1,10 @@
+"""Module usable"""
 import logging
+
 import pandas as pd
 
-import src.data.sources as sources
 import cfg.cfg as cfg
+import src.data.sources as sources
 
 
 class Usable:
@@ -28,10 +30,10 @@ class Usable:
         """
         This method calculates the number of instances/records per class w.r.t. a data set
         whose labels have been one-hot-coded.
-        
+
         :param dataset: A data frame of data
         :param labels: The list of one-hot-coded label columns in dataset
-        
+
         :return:
             summary: A pandas series that records the number of instances per class; it has a class names index.
         """
@@ -46,9 +48,9 @@ class Usable:
         return summary
 
     def outliers(self, instances_per_class: pd.Series):
-        """        
+        """
         :param instances_per_class: A pandas series of
-        
+
         :return:
             summary: outlying classes
         """

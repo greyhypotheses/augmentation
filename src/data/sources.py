@@ -1,3 +1,4 @@
+"""Module sources"""
 import sys
 
 import pandas as pd
@@ -7,12 +8,12 @@ import cfg.cfg as cfg
 
 class Sources:
     """
-    The Sources object
+    Class Source
     """
 
     def __init__(self):
         """
-        The constructor
+
         """
         variables = cfg.Cfg().variables()
         self.truth_url = variables['source']['truth']['url']
@@ -31,8 +32,8 @@ class Sources:
         """
         try:
             truth = pd.read_csv(self.truth_url, usecols=self.truth_use)
-        except Exception as e:
-            print(e)
+        except OSError as error:
+            print(error)
             sys.exit(1)
 
         return truth
@@ -46,8 +47,8 @@ class Sources:
         """
         try:
             metadata = pd.read_csv(self.metadata_url, usecols=self.metadata_use)
-        except Exception as e:
-            print(e)
+        except OSError as error:
+            print(error)
             sys.exit(1)
 
         return metadata
