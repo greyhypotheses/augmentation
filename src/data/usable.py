@@ -22,7 +22,7 @@ class Usable:
         self.logger.name = __name__
 
         variables = cfg.Cfg().variables()
-        self.minimum_class_instances = variables.modelling.minimum_class_instances
+        self.minimum_class_instances = variables['modelling']['minimum_class_instances']
 
     def instances(self, dataset: pd.DataFrame, labels: list):
         """

@@ -5,11 +5,26 @@ class Prepare:
 
     def __init__(self):
         variables = cfg.Cfg().variables()
-        self.rotations = variables.augmentation.images.rotations
-        self.url = variables.source.images.url
-        self.ext = variables.source.images.ext
-        self.use = variables.source.metadata.use
-        self.alt = variables.source.metadata.alt
+        self.rotations = variables['augmentation']['images']['rotations']
+        self.url = variables['source']['images']['url']
+        self.ext = variables['source']['images']['ext']
+        self.use = variables['source']['metadata']['use']
+        self.if_missing = variables['source']['metadata']['if_missing']
+        self.list_of_outliers = variables['augmentation']['images']['outliers']
+
+    def filename(self, data):
+
+        data['filename'] = data['image'].apply(lambda x: self.url + x + self.ext)
+
+        return data
+
+    def outliers(self, data):
+
+        for i in self.list_of_outliers:
+            data = data.loc[~eval(i)]
+            data.reset_index(inplace=True)
+
+        return data
 
     def missing(self, data):
         """
@@ -24,8 +39,8 @@ class Prepare:
         """
 
         for i in range(len(self.use)):
-            data[self.use[i]] = data[self.use[i]].fillna(value=self.alt[i])
-            data[self.use[i]] = data[self.use[i]].apply(lambda x: self.alt[i] if x == '' else x)
+            data[self.use[i]] = data[self.use[i]].fillna(value=self.if_missing[i])
+            data[self.use[i]] = data[self.use[i]].apply(lambda x: self.if_missing[i] if x == '' else x)
 
         return data
 

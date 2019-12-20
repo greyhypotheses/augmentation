@@ -15,12 +15,12 @@ class Sources:
         The constructor
         """
         variables = cfg.Cfg().variables()
-        self.truth_url = variables.source.truth.url
-        self.truth_use = variables.source.truth.use
-        self.truth_key = variables.source.truth.key
-        self.metadata_url = variables.source.metadata.url
-        self.metadata_use = variables.source.metadata.use
-        self.metadata_key = variables.source.metadata.key
+        self.truth_url = variables['source']['truth']['url']
+        self.truth_use = variables['source']['truth']['use']
+        self.truth_key = variables['source']['truth']['key']
+        self.metadata_url = variables['source']['metadata']['url']
+        self.metadata_use = variables['source']['metadata']['use']
+        self.metadata_key = variables['source']['metadata']['key']
 
     def truth(self):
         """
@@ -28,7 +28,6 @@ class Sources:
         in the 'configurations/variables.json' file
         :return:
             truth: A data frame of the data in the file
-            truth.shape[0]: The number of rows/instances in the data frame
         """
         try:
             truth = pd.read_csv(self.truth_url, usecols=self.truth_use)
@@ -36,7 +35,7 @@ class Sources:
             print(e)
             sys.exit(1)
 
-        return truth, truth.shape[0]
+        return truth
 
     def metadata(self):
         """
@@ -44,7 +43,6 @@ class Sources:
         in the 'configurations/variables.json' file
         :return:
             metadata: A data frame of the data in the file
-            metadata.shape[0]: The number of rows/instances in the data frame
         """
         try:
             metadata = pd.read_csv(self.metadata_url, usecols=self.metadata_use)
@@ -52,7 +50,7 @@ class Sources:
             print(e)
             sys.exit(1)
 
-        return metadata, metadata.shape[0]
+        return metadata
 
     def summary(self):
         """
@@ -62,8 +60,8 @@ class Sources:
             labels: The list of the data's classes; the classes are one-hot-coded.
             fields: The list of metadata fields, excluding labels.
         """
-        truth, _ = Sources().truth()
-        metadata, _ = Sources().metadata()
+        truth = Sources().truth()
+        metadata = Sources().metadata()
 
         # Join the metadata & truth data frames via common field 'image'
         inventory = metadata.merge(truth, left_on=self.metadata_key, right_on=self.truth_key, how='inner')

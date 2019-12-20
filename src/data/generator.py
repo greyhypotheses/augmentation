@@ -17,16 +17,16 @@ class Generator:
         variables = cfg.Cfg().variables()
 
         # Strip: The length that would subsequently be stripped off each edge of an image
-        self.strip = variables.augmentation.images.strip
+        self.strip = variables['augmentation']['images']['strip']
 
         # The temporary image size.
-        self.temporary_size = variables.augmentation.images.temporary_size
+        self.temporary_size = variables['augmentation']['images']['temporary_size']
 
         # The centre point about which a rotation should occur
-        self.centre = variables.augmentation.images.centre
+        self.centre = variables['augmentation']['images']['centre']
 
         # Save path
-        self.path = variables.target.images.path
+        self.path = variables['target']['images']['path']
 
     def images(self, filename, angle):
         """
@@ -60,4 +60,6 @@ class Generator:
         image_name = file.alias(filename, angle)
 
         # Save
-        file.save(clipped, os.path.join(self.path, image_name)).compute()
+        state = file.save(clipped, os.path.join(self.path, image_name)).compute()
+
+        return image_name.split('-', 1)[0], angle, state
