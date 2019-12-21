@@ -45,7 +45,7 @@ class Main:
         # Augment
         template = inventory[['filename', 'angle']]
         outcomes = [generator.Generator().images(filename=filename.compute(), angle=angle.compute())
-                    for filename, angle in da.from_array(template.to_numpy()[:16], chunks=16)]
+                    for filename, angle in da.from_array(template.to_numpy()[:128], chunks=16)]
 
         augmentations = pd.DataFrame(outcomes, columns=['image', 'angle', 'drawn'])
         focus = inventory.merge(augmentations, how='inner', on=['image', 'angle']).drop(columns=['filename'])
