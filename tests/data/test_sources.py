@@ -1,4 +1,4 @@
-import cfg.cfg as cfg
+import src.cfg.cfg as cfg
 import src.data.sources as sources
 
 variables = cfg.Cfg().variables()
