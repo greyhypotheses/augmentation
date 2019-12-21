@@ -17,7 +17,6 @@ class Prepare:
         self.ext = variables['source']['images']['ext']
         self.use = variables['source']['metadata']['use']
         self.if_missing = variables['source']['metadata']['if_missing']
-        self.list_of_outliers = variables['augmentation']['images']['outliers']
 
     def filename(self, data):
         """
@@ -29,21 +28,6 @@ class Prepare:
         """
 
         data['filename'] = data['image'].apply(lambda x: self.url + x + self.ext)
-
-        return data
-
-    def outliers(self, data):
-        """
-        :type data: pandas.DataFrame
-
-        :param data: The data frame from which a set of unwanted records is about to be deleted
-        :return:
-            data: Enhanced data frame
-        """
-
-        for i in self.list_of_outliers:
-            data = data.loc[~eval(i)]
-            data.reset_index(inplace=True)
 
         return data
 
@@ -60,9 +44,11 @@ class Prepare:
             data: Enhanced data frame
         """
 
-        for i in range(len(self.use)):
-            data[self.use[i]] = data[self.use[i]].fillna(value=self.if_missing[i])
-            data[self.use[i]] = data[self.use[i]].apply(lambda x: self.if_missing[i] if x == '' else x)
+        for field in range(len(self.use)):
+            data[self.use[field]] = data[self.use[field]].fillna(value=self.if_missing[field])
+
+        for field in range(len(self.use)):
+            data[self.use[field]] = data[self.use[field]].apply(lambda x: self.if_missing[field] if x == '' else x)
 
         return data
 

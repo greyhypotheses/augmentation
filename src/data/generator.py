@@ -1,6 +1,8 @@
 """Module generator"""
 import os
 
+import dask
+
 import cfg.cfg as cfg
 import src.geometry.transform as transform
 import src.io.file as file
@@ -79,7 +81,7 @@ class Generator:
         image_name = file.alias(filename, angle)
 
         # Save
-        state = file.save(augmented, os.path.join(self.path, image_name)).compute()
+        state = dask.compute(file.save(augmented, os.path.join(self.path, image_name)))
 
         # Return
         return image_name.split('-', 1)[0], angle, state
