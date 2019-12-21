@@ -3,7 +3,7 @@ import sys
 
 import pandas as pd
 
-import cfg.cfg as cfg
+import src.cfg.cfg as cfg
 
 
 class Sources:

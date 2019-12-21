@@ -3,7 +3,7 @@ import os
 
 import dask
 
-import cfg.cfg as cfg
+import src.cfg.cfg as cfg
 import src.geometry.transform as transform
 import src.io.file as file
 
@@ -84,4 +84,4 @@ class Generator:
         state = dask.compute(file.save(augmented, os.path.join(self.path, image_name)))
 
         # Return
-        return image_name.split('-', 1)[0], angle, state
+        return image_name.split('-', 1)[0], angle, state.__getitem__(0)

@@ -1,5 +1,5 @@
 """Module prepare"""
-import cfg.cfg as cfg
+import src.cfg.cfg as cfg
 
 
 class Prepare:

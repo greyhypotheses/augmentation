@@ -3,7 +3,7 @@ import logging
 
 import pandas as pd
 
-import cfg.cfg as cfg
+import src.cfg.cfg as cfg
 import src.data.sources as sources
 
 
