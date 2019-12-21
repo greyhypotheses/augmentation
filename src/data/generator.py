@@ -1,12 +1,15 @@
-import src.geometry.transform as transform
-import src.io.file as file
-
+"""Module generator"""
 import os
 
 import cfg.cfg as cfg
+import src.geometry.transform as transform
+import src.io.file as file
 
 
 class Generator:
+    """
+    Class Generator
+    """
 
     def __init__(self):
         """
@@ -28,6 +31,32 @@ class Generator:
         # Save path
         self.path = variables['target']['images']['path']
 
+    def augment(self, image, angle):
+        """
+        :type image: numpy.ndarray
+        :type angle: int
+
+        :param image:
+        :param angle:
+        :return:
+        """
+
+        # Transform: BGR -> RGB
+        coloured = transform.colour(image)
+
+        # Resize the image
+        resized = transform.resize(tensor=coloured, dimensions=self.temporary_size)
+
+        # Rotate the image by an angle about a centre.  Retain the image size.
+        rotated = transform.rotate(tensor=resized, dimensions=self.temporary_size, centre=self.centre, angle=angle)
+
+        # Clip the image to the required size.  In order to avoid edge artefacts the image is resized to a size
+        # slightly greater than required, then clipped after all other transformation steps.
+        clipped = transform.clip(tensor=rotated, strip=self.strip)
+
+        # Return
+        return clipped
+
     def images(self, filename, angle):
         """
         The image augmentation steps, which are executed via Dask
@@ -43,23 +72,14 @@ class Generator:
         # Import the image
         image = file.read(filename)
 
-        # Transform: BGR -> RGB
-        coloured = transform.colour(image)
-
-        # Resize the image
-        resized = transform.resize(tensor=coloured, dimensions=self.temporary_size)
-
-        # Rotate the image by an angle about a centre.  Retain the image size.
-        rotated = transform.rotate(tensor=resized, dimensions=self.temporary_size, centre=self.centre, angle=angle)
-
-        # Clip the image to the required size.  In order to avoid edge artefacts the image is resized to a size
-        # slightly greater than required, then clipped after all other transformation steps.
-        clipped = transform.clip(tensor=rotated, strip=self.strip)
+        # Augment the image
+        augmented = Generator().augment(image, angle)
 
         # Create a name for the image
         image_name = file.alias(filename, angle)
 
         # Save
-        state = file.save(clipped, os.path.join(self.path, image_name)).compute()
+        state = file.save(augmented, os.path.join(self.path, image_name)).compute()
 
+        # Return
         return image_name.split('-', 1)[0], angle, state
