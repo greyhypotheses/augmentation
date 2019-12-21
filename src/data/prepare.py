@@ -1,9 +1,16 @@
+"""Module prepare"""
 import cfg.cfg as cfg
 
 
 class Prepare:
+    """
+    Class prepare
+    """
 
     def __init__(self):
+        """
+        Common Variables
+        """
         variables = cfg.Cfg().variables()
         self.rotations = variables['augmentation']['images']['rotations']
         self.url = variables['source']['images']['url']
@@ -13,12 +20,26 @@ class Prepare:
         self.list_of_outliers = variables['augmentation']['images']['outliers']
 
     def filename(self, data):
+        """
+        :type data: pandas.DataFrame
+
+        :param data: A data frame that includes an image column via which each image source URL is created
+        :return:
+            data: Enhanced data frame
+        """
 
         data['filename'] = data['image'].apply(lambda x: self.url + x + self.ext)
 
         return data
 
     def outliers(self, data):
+        """
+        :type data: pandas.DataFrame
+
+        :param data: The data frame from which a set of unwanted records is about to be deleted
+        :return:
+            data: Enhanced data frame
+        """
 
         for i in self.list_of_outliers:
             data = data.loc[~eval(i)]
@@ -34,8 +55,9 @@ class Prepare:
 
         :type data: pandas.DataFrame
 
-        :param data:
+        :param data: A data frame whose missing values will be addressed
         :return:
+            data: Enhanced data frame
         """
 
         for i in range(len(self.use)):
