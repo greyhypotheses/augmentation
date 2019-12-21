@@ -64,3 +64,20 @@ jobs:
           pip install coverage
           pip install pytest-cov
           pytest --cov src/data tests/data
+
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag greyhypotheses/derma:augmentation
+
+      - name: Push the image to Docker Hub
+        run: |
+          docker login -u "${DOCKER_HUB_USERNAME}" -p "${DOCKER_HUB_ENTRY}"
+          docker push greyhypotheses/derma:augmentation
+        env:
+          DOCKER_HUB_USERNAME: ${{secrets.DOCKER_HUB_USERNAME}}
+          DOCKER_HUB_ENTRY: ${{secrets.DOCKER_HUB_ENTRY}}
