@@ -55,6 +55,7 @@ jobs:
           printf "\n"
           pylint --rcfile .pylintrc src/data
           pylint --rcfile .pylintrc src/geometry
+          pylint --rcfile .pylintrc src/main.py
       - name: Test with pytest
         run: |
           pip install pytest
