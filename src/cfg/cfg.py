@@ -35,7 +35,7 @@ class Cfg:
         variables['augmentation']['images']['centre'] = (columns / 2, rows / 2)
 
         # Save
-        variables['target']['images']['path'] = os.path.join(os.path.split(os.getcwd())[0],
+        variables['target']['images']['path'] = os.path.join(os.getcwd(),
                                                              variables['target']['images']['directory'])
 
         return variables
