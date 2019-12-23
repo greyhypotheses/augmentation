@@ -60,7 +60,7 @@ def main():
         if platform.system() == 'Windows':
             subprocess.Popen('del ' + os.path.join(path, '*.png'), shell=True, stdout=subprocess.PIPE)
         else:
-            subprocess.Popen('rm ' + os.path.join(path, '*.png'), shell=False)
+            subprocess.Popen('sudo rm ' + os.path.join(path, '*.png'), shell=False)
 
     # for file in glob.glob(os.path.join(path, '*.png')):
     #     os.remove(file)
