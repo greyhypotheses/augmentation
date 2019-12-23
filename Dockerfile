@@ -10,6 +10,7 @@ RUN pip install --upgrade pip
 # file of each step separately; and RUN the file immediately after COPY
 WORKDIR /app
 COPY requirements.txt /app
+RUN pip install --requirement /app/requirements.txt
 
 # Specific COPY
 COPY src /app/src
