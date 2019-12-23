@@ -9,11 +9,10 @@ import dask.array as da
 import pandas as pd
 
 if __name__ == '__main__':
-    sys.path.append('..')
-    sys.path.append('../..')
-    sys.path.append(os.path.split(os.path.abspath(__file__))[0])
-    print(os.path.abspath(__file__))
+    sys.path.append(os.getcwd())
+    sys.path.append(os.path.join(os.getcwd(), 'src'))
     print(os.getcwd())
+    print(os.path.join(os.getcwd(), 'src'))
     import src.data.generator as generator
     import src.cfg.cfg as cfg
     import src.data.prepare as prepare
