@@ -81,8 +81,6 @@ class Generator:
         image_name = file.alias(filename, angle)
 
         # Save
-        print(f"saving {image_name}")
-        print(os.path.join(self.path, image_name))
         state = dask.compute(file.save(augmented, os.path.join(self.path, image_name)))
 
         # Return
