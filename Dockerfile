@@ -23,4 +23,4 @@ VOLUME /app/images
 ENTRYPOINT ["python"]
 
 # CMD sets default arguments to executable which may be overwritten when using docker run
-CMD ["main.py"]
+CMD ["src/main.py"]
