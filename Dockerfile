@@ -9,10 +9,10 @@ RUN pip install --upgrade pip
 # If the steps of a `Dockerfile` use files that are different from the `context` file, COPY the
 # file of each step separately; and RUN the file immediately after COPY
 WORKDIR /app
-COPY requirements.txt /app/
+COPY requirements.txt /app
 
 # Specific COPY
-COPY src/ /app/
+COPY src /app
 
 # Port
 EXPOSE 8050
@@ -23,5 +23,5 @@ VOLUME /app/images
 # ENTRYPOINT
 ENTRYPOINT ["python"]
 
-# CMD sets default arguments to executable which may be overwritten when using docker run
-CMD ["/app/src/main.py"]
+# CMD
+CMD ["/src/main.py"]
