@@ -4,8 +4,7 @@ import glob
 import logging
 import os
 import sys
-import subprocess
-import platform
+import multiprocessing as mp
 
 import dask.array as da
 import pandas as pd
@@ -52,23 +51,15 @@ def main():
     inventory = prep.filename(inventory)
 
     # Delete existing augmentations
-    # del *.png, sudo rm *.png
-    # del *.zip, sudo rm *.png
-    n_images = glob.glob(os.path.join(path, '*.png'))
-
-    if len(n_images) > 0:
-        if platform.system() == 'Windows':
-            subprocess.Popen('del ' + os.path.join(path, '*.png'), shell=True, stdout=subprocess.PIPE)
-        else:
-            subprocess.Popen('sudo rm ' + os.path.join(path, '*.png'), shell=False)
-
-    # for file in glob.glob(os.path.join(path, '*.png')):
-    #     os.remove(file)
+    pool = mp.Pool(mp.cpu_count())
+    images_list = glob.glob(os.path.join(path, '*.png'))
+    images_iterable = [{images_list[i]} for i in range(len(images_list))]
+    pool.starmap(os.remove, [image for image in images_iterable])
 
     # Augment
     template = inventory[['filename', 'angle']]
     outcomes = [generator.Generator().images(filename=filename.compute(), angle=angle.compute())
-                for filename, angle in da.from_array(template.to_numpy()[:64], chunks=16)]
+                for filename, angle in da.from_array(template.to_numpy()[:128], chunks=16)]
 
     augmentations = pd.DataFrame(outcomes, columns=['image', 'angle', 'drawn'])
     focus = inventory.merge(augmentations, how='inner', on=['image', 'angle']).drop(columns=['filename'])
