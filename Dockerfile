@@ -12,7 +12,7 @@ WORKDIR /app
 COPY requirements.txt /app
 
 # Specific COPY
-COPY src /app
+COPY src /app/src
 
 # Port
 EXPOSE 8050
