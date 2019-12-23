@@ -82,6 +82,7 @@ class Generator:
 
         # Save
         print(f"saving {image_name}")
+        print(os.path.join(self.path, image_name))
         state = dask.compute(file.save(augmented, os.path.join(self.path, image_name)))
 
         # Return
