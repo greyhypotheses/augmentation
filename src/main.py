@@ -4,6 +4,8 @@ import glob
 import logging
 import os
 import sys
+import subprocess
+import platform
 
 import dask.array as da
 import pandas as pd
@@ -50,8 +52,18 @@ def main():
     inventory = prep.filename(inventory)
 
     # Delete existing augmentations
-    for file in glob.glob(os.path.join(path, '*.png')):
-        os.remove(file)
+    # del *.png, sudo rm *.png
+    # del *.zip, sudo rm *.png
+    n_images = glob.glob(os.path.join(path, '*.png'))
+
+    if len(n_images) > 0:
+        if platform.system() == 'Windows':
+            subprocess.Popen('del ' + os.path.join(path, '*.png'), shell=True, stdout=subprocess.PIPE)
+        else:
+            subprocess.Popen('sudo rm ' + os.path.join(path, '*.png'), shell=True, stdout=subprocess.PIPE)
+
+    # for file in glob.glob(os.path.join(path, '*.png')):
+    #     os.remove(file)
 
     # Augment
     template = inventory[['filename', 'angle']]
@@ -63,7 +75,7 @@ def main():
     logger.info(focus.head())
 
     # Write
-    focus.to_csv('inventory.csv')
+    focus.to_csv(os.path.join(path, 'inventory.csv'))
 
 
 if __name__ == '__main__':
