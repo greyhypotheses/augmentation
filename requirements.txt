@@ -1,4 +1,4 @@
-dask==2.9.0
+"dask[complete]"==2.9.0
 opencv-python==4.1.2.30
 pytest==5.3.1
 coverage==4.5.4
