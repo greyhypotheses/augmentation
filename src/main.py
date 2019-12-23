@@ -54,12 +54,12 @@ def main():
     pool = mp.Pool(mp.cpu_count())
     images_list = glob.glob(os.path.join(path, '*.png'))
     images_iterable = [{images_list[i]} for i in range(len(images_list))]
-    pool.starmap(os.remove, [image for image in images_iterable])
+    pool.starmap(os.remove, images_iterable)
 
     # Augment
     template = inventory[['filename', 'angle']]
     outcomes = [generator.Generator().images(filename=filename.compute(), angle=angle.compute())
-                for filename, angle in da.from_array(template.to_numpy()[:128], chunks=16)]
+                for filename, angle in da.from_array(template.to_numpy()[:16], chunks=16)]
 
     augmentations = pd.DataFrame(outcomes, columns=['image', 'angle', 'drawn'])
     focus = inventory.merge(augmentations, how='inner', on=['image', 'angle']).drop(columns=['filename'])
