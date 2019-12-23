@@ -12,6 +12,8 @@ if __name__ == '__main__':
     sys.path.append('..')
     sys.path.append('../..')
     sys.path.append(os.path.split(os.path.abspath(__file__))[0])
+    print(os.path.abspath(__file__))
+    print(os.getcwd())
     import src.data.generator as generator
     import src.cfg.cfg as cfg
     import src.data.prepare as prepare
