@@ -1,0 +1,11 @@
+dask
+opencv-python
+pytest
+coverage
+pytest-cov
+pylint
+scikit-image
+dotmap
+flake8
+pandas
+PyYAML
