@@ -1,3 +1,10 @@
+branch|state
+:---|:---
+develop|![](https://github.com/greyhypotheses/augmentation/workflows/Derma%20Python%20Package/badge.svg?branch=develop)
+master|![](https://github.com/greyhypotheses/augmentation/workflows/Derma%20Python%20Package/badge.svg?branch=master)
+
+<br>
+
 # Augmentation
 
 This repository complements the
@@ -24,7 +31,7 @@ The augmentation algorithms of this repository can be run via Docker.  Using an 
 
 **Within the Amazon EC2 machine**
 
-In the code snippets below, the required image is *pulled* from Docker Hub after ascertaining the docker is running.
+In the code snippets below, the required image is *pulled* from Docker Hub after ascertaining that docker is running.
 
 #### Is docker running?
 
