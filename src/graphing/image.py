@@ -1,3 +1,4 @@
+"""Module image"""
 import io
 
 import matplotlib.image as image
@@ -9,7 +10,7 @@ import src.cfg.cfg as cfg
 
 class Image:
     """
-    In progress
+    Class Image
     """
 
     # Constructor
