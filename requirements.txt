@@ -10,7 +10,7 @@ flake8==3.7.9
 jupyterlab==1.2.4
 seaborn==0.9.0
 requests==2.22.0
-## The following requirements were indirectly installed by dask, added to the requirements list by pip freeze, and retained here for debugging:
+## Indirectly installed by dask, added to the requirements list by pip freeze, and retained here for debugging:
 pandas==0.25.3
 PyYAML==5.1.2
 matplotlib==3.1.1
