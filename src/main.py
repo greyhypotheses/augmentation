@@ -2,9 +2,9 @@
 
 import glob
 import logging
+import multiprocessing as mp
 import os
 import sys
-import multiprocessing as mp
 
 import dask.array as da
 import pandas as pd
@@ -57,16 +57,20 @@ def main():
     pool.starmap(os.remove, images_iterable)
 
     # Augment
+    if not os.path.exists(path):
+        os.makedirs(path)
+
     template = inventory[['filename', 'angle']]
     outcomes = [generator.Generator().images(filename=filename.compute(), angle=angle.compute())
-                for filename, angle in da.from_array(template.to_numpy(), chunks=32)]
+                for filename, angle in da.from_array(template.to_numpy()[:64], chunks=32)]
 
-    augmentations = pd.DataFrame(outcomes, columns=['image', 'angle', 'drawn'])
-    focus = inventory.merge(augmentations, how='inner', on=['image', 'angle']).drop(columns=['filename'])
+    augmentations = pd.DataFrame(outcomes, columns=['name', 'image', 'angle', 'drawn'])
+    focus = inventory.merge(augmentations, how='inner', on=['image', 'angle']).drop(columns=['filename', 'index'])
     logger.info(focus.head())
 
     # Write
-    focus.to_csv(os.path.join(path, 'inventory.csv'))
+    # Automate directories for zipping via https://docs.python.org/3.7/library/shutil.html
+    focus.to_csv(os.path.join(path, 'inventory.csv'), index=False)
 
 
 if __name__ == '__main__':
