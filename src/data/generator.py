@@ -84,4 +84,4 @@ class Generator:
         state = dask.compute(file.save(augmented, os.path.join(self.path, image_name)))
 
         # Return
-        return image_name.split('-', 1)[0], angle, state.__getitem__(0)
+        return image_name, image_name.split('-', 1)[0], angle, state.__getitem__(0)
