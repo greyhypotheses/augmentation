@@ -5,7 +5,7 @@ import multiprocessing as mp
 import pandas as pd
 import requests
 
-from src.cfg import cfg as cfg
+import src.federal.federal as federal
 
 
 class Images:
@@ -20,12 +20,18 @@ class Images:
         """
 
         # Logging
-        cfg.Cfg().logs()
+        federal.Federal().logs()
         self.logger = logging.getLogger('debug')
         self.logger.name = __name__
 
-    @staticmethod
-    def state(image):
+        # Variables
+        variables = federal.Federal().variables()
+        self.url = variables['source']['images']['url']
+        self.ext = variables['source']['images']['ext']
+        self.tests_random_sample_size = variables['tests']['random_sample_size']
+
+
+    def state(self, image):
         """
 
         :param image:
@@ -33,14 +39,14 @@ class Images:
         """
 
         # Image
-        r = requests.get(cfg.Cfg().variables()['source']['images']['url'] + image +
-                         cfg.Cfg().variables()['source']['images']['ext'])
+        req = requests.get(self.url + image + self.ext)
 
         # Return image & access status code
-        return {'image': image, 'status': 1 if r.status_code == 200 else 0}
+        return {'image': image, 'status': 1 if req.status_code == 200 else 0}
 
     def states(self, images):
         """
+        :type images: pandas.Series
 
         :param images:
         :return:
@@ -51,10 +57,11 @@ class Images:
 
         # For a small data frame of image names
         # images.sample(n=config.variables['tests']['random_sample_size']['images'])
-        excerpt = images.sample(n=cfg.Cfg().variables()['tests']['random_sample_size'])
+        excerpt: pd.Series = images.sample(n=self.tests_random_sample_size)
 
         # An iterable form of excerpt
-        excerpt_iterable = [{excerpt[i]} for i in excerpt.index]
+        # [{excerpt[i]} for i in excerpt.index]
+        excerpt_iterable = excerpt.tolist()
 
         # Determine whether each of the randomly selected images exists in the repository
         # image, status
