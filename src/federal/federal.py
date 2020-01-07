@@ -3,7 +3,7 @@ import os
 import yaml
 
 
-class Cfg:
+class Federal:
 
     def __init__(self):
         self.path = os.path.split(os.path.abspath(__file__))[0]
