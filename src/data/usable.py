@@ -3,7 +3,7 @@ import logging
 
 import pandas as pd
 
-import src.cfg.cfg as cfg
+import src.federal.federal as federal
 import src.data.sources as sources
 
 
@@ -18,12 +18,12 @@ class Usable:
         Constructor
         """
 
-        cfg.Cfg().logs()
+        federal.Federal().logs()
         self.logger = logging.getLogger('debug')
         self.logger.disabled = True
         self.logger.name = __name__
 
-        variables = cfg.Cfg().variables()
+        variables = federal.Federal().variables()
         self.minimum_class_instances = variables['modelling']['minimum_class_instances']
 
     def instances(self, dataset: pd.DataFrame, labels: list):

@@ -1,5 +1,5 @@
 """Module prepare"""
-import src.cfg.cfg as cfg
+import src.federal.federal as federal
 
 
 class Prepare:
@@ -11,7 +11,7 @@ class Prepare:
         """
         Common Variables
         """
-        variables = cfg.Cfg().variables()
+        variables = federal.Federal().variables()
         self.rotations = variables['augmentation']['images']['rotations']
         self.url = variables['source']['images']['url']
         self.ext = variables['source']['images']['ext']

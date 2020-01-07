@@ -3,7 +3,7 @@ import sys
 
 import pandas as pd
 
-import src.cfg.cfg as cfg
+import src.federal.federal as federal
 
 
 class Sources:
@@ -15,7 +15,7 @@ class Sources:
         """
 
         """
-        variables = cfg.Cfg().variables()
+        variables = federal.Federal().variables()
         self.truth_url = variables['source']['truth']['url']
         self.truth_use = variables['source']['truth']['use']
         self.truth_key = variables['source']['truth']['key']

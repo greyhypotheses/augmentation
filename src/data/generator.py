@@ -3,7 +3,7 @@ import os
 
 import dask
 
-import src.cfg.cfg as cfg
+import src.federal.federal as federal
 import src.geometry.transform as transform
 import src.io.file as file
 
@@ -19,7 +19,7 @@ class Generator:
         """
 
         # An instance of variables
-        variables = cfg.Cfg().variables()
+        variables = federal.Federal().variables()
 
         # Strip: The length that would subsequently be stripped off each edge of an image
         self.strip = variables['augmentation']['images']['strip']
