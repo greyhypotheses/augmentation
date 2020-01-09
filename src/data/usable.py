@@ -1,5 +1,6 @@
 """Module usable"""
 import logging
+import typing
 
 import pandas as pd
 
@@ -26,7 +27,7 @@ class Usable:
         variables = federal.Federal().variables()
         self.minimum_class_instances = variables['modelling']['minimum_class_instances']
 
-    def instances(self, dataset: pd.DataFrame, labels: list):
+    def instances(self, dataset: pd.DataFrame, labels: list) -> pd.Series:
         """
         This method calculates the number of instances/records per class w.r.t. a data set
         whose labels have been one-hot-coded.
@@ -47,7 +48,7 @@ class Usable:
         # Return
         return summary
 
-    def outliers(self, instances_per_class: pd.Series):
+    def outliers(self, instances_per_class: pd.Series) -> pd.Series:
         """
         :param instances_per_class: A pandas series of
 
@@ -69,7 +70,7 @@ class Usable:
         return summary
 
     @staticmethod
-    def summary():
+    def summary() -> (pd.DataFrame, typing.List, typing.List):
         """
         Reads sources.Sources().summary()
         :return:
@@ -81,7 +82,7 @@ class Usable:
 
         # The metadata & ground truth (inventory), the names of the label columns, and
         # the names of the metadata fields
-        inventory, labels, fields = sources.Sources().summary()
+        inventory, fields, labels = sources.Sources().summary()
 
         # In terms of the data in question, how many instances are there per class?
         instances_per_class: pd.Series = Usable().instances(dataset=inventory, labels=labels)
@@ -101,4 +102,4 @@ class Usable:
         labels = sorted(list(set(labels).difference(set(outlying_classes.index.values))))
 
         # If yes, the associated rows & columns are dropped.
-        return admissible, labels, fields
+        return admissible, fields, labels

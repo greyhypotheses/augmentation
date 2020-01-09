@@ -1,5 +1,6 @@
 """Module sources"""
 import sys
+import typing
 
 import pandas as pd
 
@@ -8,12 +9,13 @@ import src.federal.federal as federal
 
 class Sources:
     """
-    Class Source
+    Class Sources
     """
 
     def __init__(self):
         """
-
+        Herein, the constructor initialises a set of the global/federal variables.  The variables are
+        defined in src/federal/variables.yml
         """
         variables = federal.Federal().variables()
         self.truth_url = variables['source']['truth']['url']
@@ -23,10 +25,11 @@ class Sources:
         self.metadata_use = variables['source']['metadata']['use']
         self.metadata_key = variables['source']['metadata']['key']
 
-    def truth(self):
+
+    def truth(self) -> pd.DataFrame:
         """
         Reads the ground truth data file.  The location of the file is recorded
-        in the 'configurations/variables.json' file
+        in the 'federal/variables.yml' file
         :return:
             truth: A data frame of the data in the file
         """
@@ -38,10 +41,12 @@ class Sources:
 
         return truth
 
-    def metadata(self):
+
+    def metadata(self) -> pd.DataFrame:
         """
         Reads the metadata data file.  The location of the file is recorded
-        in the 'configurations/variables.json' file
+        in the 'federal/variables.yml' file
+
         :return:
             metadata: A data frame of the data in the file
         """
@@ -53,6 +58,7 @@ class Sources:
 
         return metadata
 
+
     def summary(self):
         """
         Reads the 'truth' & 'metadata' files and joins their data via the image name field 'image'
@@ -61,19 +67,19 @@ class Sources:
             labels: The list of the data's classes; the classes are one-hot-coded.
             fields: The list of metadata fields, excluding labels.
         """
-        truth = Sources().truth()
-        metadata = Sources().metadata()
+        truth: pd.DataFrame = Sources().truth()
+        metadata: pd.DataFrame = Sources().metadata()
 
         # Join the metadata & truth data frames via common field 'image'
-        inventory = metadata.merge(truth, left_on=self.metadata_key, right_on=self.truth_key, how='inner')
+        inventory: pd.DataFrame = metadata.merge(truth, left_on=self.metadata_key, right_on=self.truth_key, how='inner')
         inventory.drop_duplicates(keep='first', inplace=True)
 
         # The truth labels are one-hot-coded.  The labels are
-        labels = truth.columns.drop(self.truth_key).values.tolist()
+        labels: typing.List = truth.columns.drop(self.truth_key).values.tolist()
         inventory[labels] = inventory[labels].astype('int')
 
         # The metadata fields, including the key
-        fields = inventory.columns.drop(labels).values.tolist()
+        fields: typing.List = inventory.columns.drop(labels).values.tolist()
 
         # Herein,
         #   the class/label fields are selected: inventory[labels]
@@ -83,4 +89,4 @@ class Sources:
         assert inventory[labels].sum(axis=1).all(), "Each image must be associated with a single class only"
 
         # Hence
-        return inventory, labels, fields
+        return inventory, fields, labels
