@@ -8,6 +8,16 @@ class Federal:
     def __init__(self):
         self.path = os.path.split(os.path.abspath(__file__))[0]
 
+    @staticmethod
+    def paths(partitions):
+
+        path = os.getcwd()
+        for partition in partitions:
+            path = os.path.join(path, partition)
+
+        return path
+
+
     def variables(self):
         """
         Parses the generic variables file of this project
@@ -34,9 +44,11 @@ class Federal:
         rows, columns = temporary_size[0], temporary_size[1]
         variables['augmentation']['images']['centre'] = (columns / 2, rows / 2)
 
-        # Save
-        variables['target']['images']['path'] = os.path.join(os.getcwd(),
-                                                             variables['target']['images']['directory'])
+        # Paths
+        variables['target']['path'] = Federal().paths(variables['target']['directory'])
+        variables['target']['images']['path'] = Federal().paths(variables['target']['images']['directory'])
+        variables['target']['splits']['path'] = Federal().paths(variables['target']['splits']['directory'])
+        variables['target']['zips']['path'] = Federal().paths(variables['target']['zips']['directory'])
 
         return variables
 
