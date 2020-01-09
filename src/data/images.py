@@ -73,7 +73,7 @@ class Images:
 
         # Determine whether each of the randomly selected images exists in the repository
         # image, status
-        sample_dict = pool.starmap_async(Images().state, [i for i in excerpt_iterable]).get()
+        sample_dict = pool.starmap_async(Images().state, (i for i in excerpt_iterable)).get()
         sample_frame = pd.DataFrame(sample_dict)
 
         # Are there any missing images?
