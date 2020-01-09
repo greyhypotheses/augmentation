@@ -1,7 +1,7 @@
-import src.cfg.cfg as cfg
+import src.federal.federal as federal
 import src.data.sources as sources
 
-variables = cfg.Cfg().variables()
+variables = federal.Federal().variables()
 
 
 class TestSources:
