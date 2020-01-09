@@ -29,7 +29,7 @@ class TestSources:
 
         truth = sources.Sources().truth()
         metadata = sources.Sources().metadata()
-        inventory, labels, fields = sources.Sources().summary()
+        inventory, fields, labels = sources.Sources().summary()
 
         assert truth.shape[0] == inventory.shape[0], "The number of ground truth & inventory data points must be equal"
         assert metadata.shape[0] == inventory.shape[0], "The number of medata & inventory data points must be equal"
