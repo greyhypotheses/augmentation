@@ -1,7 +1,7 @@
 """Module prepare"""
-import pandas as pd
-
 import typing
+
+import pandas as pd
 
 import src.federal.federal as federal
 
@@ -10,6 +10,7 @@ class Prepare:
     """
     Class prepare
     """
+
 
     def __init__(self):
         """
@@ -87,6 +88,15 @@ class Prepare:
 
     @staticmethod
     def summary(data: pd.DataFrame, fields: typing.List, labels: typing.List) -> pd.DataFrame:
+        """
+        Addresses missing data, assigns angles of rotation via angles(),
+        and adds an image location/url field via image_url()
+
+        :param data: The data frame summarising the images to be augmented and their metadata thus far
+        :param fields: The non-label columns of data
+        :param labels: The label columns of data
+        :return:
+        """
 
         # Missing Data
         inventory = Prepare().missing(data)
