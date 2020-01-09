@@ -5,7 +5,7 @@ import matplotlib.image as image
 import numpy as np
 import requests
 
-import src.cfg.cfg as cfg
+import src.federal.federal as federal
 
 
 class Image:
@@ -18,7 +18,11 @@ class Image:
         """
         Constructor
         """
-        self.name = 'Images'
+
+        # Variables
+        variables = federal.Federal().variables()
+        self.url = variables['source']['images']['url']
+        self.ext = variables['source']['images']['ext']
 
     @staticmethod
     def name(images, datawidth, index):
@@ -34,8 +38,8 @@ class Image:
         # Extracting image names via table grid
         return images.loc[np.floor(index / datawidth).astype(int), images.columns[np.mod(index, datawidth)]]
 
-    @staticmethod
-    def data(images, datawidth, index):
+
+    def data(self, images, datawidth, index):
         """
 
         :param images: A data frame of image names wherein the column names are the lesion types.
@@ -50,7 +54,7 @@ class Image:
         name = Image.name(images, datawidth, index)
 
         # Image URL
-        url = cfg.Cfg().variables()['source']['images']['url'] + name + cfg.Cfg().variables()['source']['images']['ext']
+        url = self.url + name + self.ext
 
         # Get Image
         r = requests.get(url)
@@ -70,10 +74,10 @@ class Image:
         """
 
         # The
-        name = Image.name(images, datawidth, index)
+        name = Image().name(images, datawidth, index)
 
         # An image's raw data
-        data = Image.data(images, datawidth, index)
+        data = Image().data(images, datawidth, index)
 
         # Calculating a figure grid location
         n = np.floor_divide(index, figrows)
