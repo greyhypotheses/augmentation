@@ -1,5 +1,5 @@
-import src.data.sources as sources
 import src.data.images as images
+import src.data.sources as sources
 
 
 class TestImages:
