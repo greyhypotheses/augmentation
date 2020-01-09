@@ -14,6 +14,10 @@ This repository complements the
 
 repositories. It augments the original images of [dermatology](https://github.com/greyhypotheses/dermatology) for the models of [derma](https://github.com/greyhypotheses/derma).  This is a critical step because the models of [derma](https://github.com/greyhypotheses/derma) include deep transfer learning models that require specific image dimensions.  An upcoming update to this project is a **runtime image dimensions argument**, i.e., a tuple of the required width & height.
 
+Future considerations:
+
+* Angle of rotation
+
 <br>
 <br>
 
