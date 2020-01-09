@@ -105,10 +105,11 @@ class Preserve:
         unique_id = list(range(len(list_of_images)))
         images_ = [list(x) for x in zip(list_of_images, unique_id)]
         splitting_states = [Preserve().splitting(image_name, image_index) for image_name, image_index in images_]
+        if any(splitting_states):
+            raise Exception("The images files splitting step failed")
 
         # Zip
-        if any(splitting_states):
-            raise Exception("The splitting ...")
-        else:
-            directories_of_splits = glob.glob(os.path.join(self.splits_path, '*'))
-            [Preserve().zipping(i) for i in directories_of_splits]
+        directories_of_splits = glob.glob(os.path.join(self.splits_path, '*'))
+        zipping_states = [Preserve().zipping(i) for i in directories_of_splits]
+        if any(zipping_states):
+            raise Exception("The zipping step failed")
