@@ -24,7 +24,7 @@ repositories. It creates augmentations of the original images of [dermatology](h
 
 ## Steps
 
-Each image is transformed according to the steps of [generator.Generator().augment(...)](./src/data/generator.py)
+The entry point, control centre, of this repository/package is [src/main.py](./src/main.py).  The program runs all the algorithms of this repository/package.  In terms of image transformations, each image is transformed according to the steps of [generator.Generator().augment(...)](./src/data/generator.py)
 
 <br>
 <br>
