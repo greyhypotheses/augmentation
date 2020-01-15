@@ -12,30 +12,36 @@ This repository complements the
 * [derma](https://github.com/greyhypotheses/derma)
 * [dermatology](https://github.com/greyhypotheses/dermatology)
 
-repositories. It augments the original images of [dermatology](https://github.com/greyhypotheses/dermatology) for the models of [derma](https://github.com/greyhypotheses/derma).  This is a critical step because the models of [derma](https://github.com/greyhypotheses/derma) include deep transfer learning models that require specific image dimensions.  An upcoming update to this project is a **runtime image dimensions argument**, i.e., a tuple of the required width & height.
+repositories. It creates augmentations of the original images of [dermatology](https://github.com/greyhypotheses/dermatology) for the models of [derma](https://github.com/greyhypotheses/derma).  This is a critical step because the models of [derma](https://github.com/greyhypotheses/derma) include deep transfer learning models that require specific image dimensions.  Upcoming updates to this prospective package are
 
-Future considerations:
-
-* Angle of rotation
+* Runtime image dimensions argument, i.e., the ability to input a tuple of the required width & height at runtime.
+* Non-mandatory angle of rotation; presently, this must be specified in the global variables dictionary.
+* Online based [YAML global dictionaries](./src/federal).
+* Missing tests.
 
 <br>
 <br>
 
-## Technical Notes
-**for Linux Machines**
+## Steps
 
-The augmentation algorithms of this repository can be run via Docker.  Using an Amazon EC2 Linux machine to illustrate:
+Each image is transformed according to the steps of [generator.Generator().augment(...)](./src/data/generator.py)
+
+<br>
+<br>
+
+## Running
+
+The augmentation algorithms of this repository are ran via a container of a Docker image.  The image is created by GitHub Actions using this repository's [Dockerfile](./Dockerfile), and automatically pushed to Docker Hub section [greyhypotheses/derma:augmentation](https://hub.docker.com/r/greyhypotheses/derma/tags).
+
+Thus far the image has been pulled & ran within an Amazon EC2 Linux machine:
   * Amazon Linux AMI 2018.03.0.20190826 x86_64 HVM gp2
   * amzn-ami-hvm-2018.03.0.20190826-x86_64-gp2 (ami-00eb20669e0990cb4)
 
 <br>
-<br>
 
-### Docker
+### Via a Docker Container
 
-**Within the Amazon EC2 machine**
-
-In the code snippets below, the required image is *pulled* from Docker Hub after ascertaining that docker is running.
+In the code snippet below, the required image is *pulled* from Docker Hub after ascertaining that docker is running.
 
 #### Is docker running?
 
@@ -60,13 +66,24 @@ docker info
 
 ```
 
-#### Hence, pull image
+<br>
+
+#### Hence, pull the image
 
 ```bash
 
 # Pull image
 docker pull greyhypotheses/derma:augmentation
 
+```
+
+<br>
+
+#### Run a container
+
+Running a container of the image, as outlined below, runs the algorithms of this repository.  The resulting images are zipped.  If access to a cloud repository is available, a method that automatically transfers the files to the cloud repository can be added to [main.py](./src/main.py).
+
+```bash
 # Container
 # Help: https://docs.docker.com/engine/reference/commandline/run/
 # -v ~/images:/app/images => mapping local path ~/images to the volume of the container, i.e., /app/images
@@ -76,21 +93,13 @@ docker run -d -v ~/images:/app/images greyhypotheses/derma:augmentation
 # Thus far, how many images?
 cd images
 ls | wc -l
-
-# Zip?
-# Into zip files of maximum size 99MB each
-sudo zip -9 images.zip *.png
-sudo zipsplit -n 99000000 images.zip
-sudo rm images.zip
-
 ```
 
-<br>
 <br>
 
 #### Download Option
 
-Local, a cloud repository, etc.  Case local:
+Case local:
 
 ```bash
 scp -i ***.pem ec2-user@**.**.***.**:~/images/*.csv augmentation/images/
@@ -100,9 +109,8 @@ scp -i ***.pem ec2-user@**.**.***.**:~/images/*zip augmentation/images/
 <br>
 <br>
 
-### Miscellaneous Docker Notes
+### Docker Help Notes
 
-For readers new to docker:
 
 #### Clearing Docker Containers
 ```bash
