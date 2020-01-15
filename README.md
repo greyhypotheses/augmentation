@@ -38,9 +38,8 @@ Thus far the image has been pulled & ran within an Amazon EC2 Linux machine:
   * amzn-ami-hvm-2018.03.0.20190826-x86_64-gp2 (ami-00eb20669e0990cb4)
 
 <br>
-<br>
 
-### Docker
+### Via a Docker Container
 
 In the code snippet below, the required image is *pulled* from Docker Hub after ascertaining that docker is running.
 
@@ -110,9 +109,8 @@ scp -i ***.pem ec2-user@**.**.***.**:~/images/*zip augmentation/images/
 <br>
 <br>
 
-### Miscellaneous Docker Notes
+### Docker Help Notes
 
-Help notes:
 
 #### Clearing Docker Containers
 ```bash
