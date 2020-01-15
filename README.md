@@ -26,6 +26,9 @@ repositories. It creates augmentations of the original images of [dermatology](h
 
 Each image is transformed according to the steps of [generator.Generator().augment(...)](./src/data/generator.py)
 
+<br>
+<br>
+
 ## Running
 
 The augmentation algorithms of this repository are ran via a container of a Docker image.  The image is created by GitHub Actions using this repository's [Dockerfile](./Dockerfile), and automatically pushed to Docker Hub section [greyhypotheses/derma:augmentation](https://hub.docker.com/r/greyhypotheses/derma/tags).
@@ -39,9 +42,7 @@ Thus far the image has been pulled & ran within an Amazon EC2 Linux machine:
 
 ### Docker
 
-**Within the Amazon EC2 machine**
-
-In the code snippets below, the required image is *pulled* from Docker Hub after ascertaining that docker is running.
+In the code snippet below, the required image is *pulled* from Docker Hub after ascertaining that docker is running.
 
 #### Is docker running?
 
@@ -95,7 +96,6 @@ cd images
 ls | wc -l
 ```
 
-<br>
 <br>
 
 #### Download Option
