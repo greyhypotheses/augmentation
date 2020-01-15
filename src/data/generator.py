@@ -3,9 +3,9 @@ import os
 
 import dask
 
-import src.cfg.cfg as cfg
+import src.federal.federal as federal
 import src.geometry.transform as transform
-import src.io.file as file
+import src.io.images as images
 
 
 class Generator:
@@ -19,7 +19,7 @@ class Generator:
         """
 
         # An instance of variables
-        variables = cfg.Cfg().variables()
+        variables = federal.Federal().variables()
 
         # Strip: The length that would subsequently be stripped off each edge of an image
         self.strip = variables['augmentation']['images']['strip']
@@ -72,16 +72,16 @@ class Generator:
         """
 
         # Import the image
-        image = file.read(filename)
+        image = images.read(filename)
 
         # Augment the image
         augmented = Generator().augment(image, angle)
 
         # Create a name for the image
-        image_name = file.alias(filename, angle)
+        image_name = images.alias(filename, angle)
 
         # Save
-        state = dask.compute(file.save(augmented, os.path.join(self.path, image_name)))
+        state = dask.compute(images.save(augmented, os.path.join(self.path, image_name)))
 
         # Return
-        return image_name.split('-', 1)[0], angle, state.__getitem__(0)
+        return image_name, image_name.split('-', 1)[0], angle, state.__getitem__(0)

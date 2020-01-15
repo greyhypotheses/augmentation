@@ -38,6 +38,9 @@ jobs:
           echo "src/geometry"
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics src/geometry
 
+          echo "src/graphing"
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics src/graphing
+
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           printf "\n"
           echo "Complexity issues:"
@@ -47,6 +50,9 @@ jobs:
 
           echo "src/geometry"
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=120 --statistics src/geometry
+
+          echo "src/graphing"
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=120 --statistics src/graphing
       - name: Lint with pylint
         run: |
           pip install pylint

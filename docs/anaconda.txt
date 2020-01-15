@@ -1,4 +1,4 @@
-﻿conda create --prefix ~/Anaconda3/envs/augmentation python=3.7.5 dask pytest coverage pytest-cov pylint scikit-image flake8
+﻿conda create --prefix ~/Anaconda3/envs/augmentation python=3.7.5 dask pytest coverage pytest-cov pylint scikit-image flake8 jupyterlab seaborn requests
 conda activate augmentation
 pip install opencv-python
 pip install dotmap

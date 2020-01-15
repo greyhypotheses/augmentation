@@ -14,6 +14,10 @@ This repository complements the
 
 repositories. It augments the original images of [dermatology](https://github.com/greyhypotheses/dermatology) for the models of [derma](https://github.com/greyhypotheses/derma).  This is a critical step because the models of [derma](https://github.com/greyhypotheses/derma) include deep transfer learning models that require specific image dimensions.  An upcoming update to this project is a **runtime image dimensions argument**, i.e., a tuple of the required width & height.
 
+Future considerations:
+
+* Angle of rotation
+
 <br>
 <br>
 
@@ -64,13 +68,19 @@ docker info
 docker pull greyhypotheses/derma:augmentation
 
 # Container
-# Mapping local path ~/images to the volume of the container, i.e., /app/images
+# Help: https://docs.docker.com/engine/reference/commandline/run/
+# -v ~/images:/app/images => mapping local path ~/images to the volume of the container, i.e., /app/images
+# -d => run the container in the background
 docker run -d -v ~/images:/app/images greyhypotheses/derma:augmentation
 
+# Thus far, how many images?
+cd images
+ls | wc -l
+
+# Zip?
+# Into zip files of maximum size 99MB each
 sudo zip -9 images.zip *.png
-
 sudo zipsplit -n 99000000 images.zip
-
 sudo rm images.zip
 
 ```
@@ -83,6 +93,7 @@ sudo rm images.zip
 Local, a cloud repository, etc.  Case local:
 
 ```bash
+scp -i ***.pem ec2-user@**.**.***.**:~/images/*.csv augmentation/images/
 scp -i ***.pem ec2-user@**.**.***.**:~/images/*zip augmentation/images/
 ```
 
