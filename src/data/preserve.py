@@ -4,9 +4,10 @@ import math
 import os
 import shutil
 import zipfile
+
 import pandas as pd
 
-import src.federal.federal as federal
+import config
 
 
 class Preserve:
@@ -22,7 +23,7 @@ class Preserve:
 
     def __init__(self):
 
-        variables = federal.Federal().variables()
+        variables = config.Config().variables()
 
         # Paths
         self.path = variables['target']['path']
@@ -32,7 +33,6 @@ class Preserve:
 
         # Number of images per split; for zipping purposes
         self.images_per_split = variables['target']['splits']['images_per_split']
-
 
     def splitting(self, image_name: str, image_index: int) -> None:
         """
@@ -54,7 +54,6 @@ class Preserve:
 
         # Copy file to subdirectory
         shutil.copy(image_name, subdirectory)
-
 
     def zipping(self, directory: str) -> None:
         """
@@ -84,7 +83,6 @@ class Preserve:
 
         zip_object.close()
 
-
     def steps(self, inventory: pd.DataFrame, augmentations: pd.DataFrame) -> None:
         """
         :type inventory: pd.DataFrame
@@ -104,12 +102,12 @@ class Preserve:
         list_of_images = glob.glob(os.path.join(self.images_path, '*.png'))
         unique_id = list(range(len(list_of_images)))
         images_ = [list(x) for x in zip(list_of_images, unique_id)]
-        splitting_states = [Preserve().splitting(image_name, image_index) for image_name, image_index in images_]
+        splitting_states = [self.splitting(image_name, image_index) for image_name, image_index in images_]
         if any(splitting_states):
             raise Exception("The images files splitting step failed")
 
         # Zip
         directories_of_splits = glob.glob(os.path.join(self.splits_path, '*'))
-        zipping_states = [Preserve().zipping(i) for i in directories_of_splits]
+        zipping_states = [self.zipping(i) for i in directories_of_splits]
         if any(zipping_states):
             raise Exception("The zipping step failed")

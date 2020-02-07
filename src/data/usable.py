@@ -4,7 +4,7 @@ import typing
 
 import pandas as pd
 
-import src.federal.federal as federal
+import config
 import src.data.sources as sources
 
 
@@ -19,12 +19,12 @@ class Usable:
         Constructor
         """
 
-        federal.Federal().logs()
+        config.Config().logs()
         self.logger = logging.getLogger('debug')
         self.logger.disabled = True
         self.logger.name = __name__
 
-        variables = federal.Federal().variables()
+        variables = config.Config().variables()
         self.minimum_class_instances = variables['modelling']['minimum_class_instances']
 
     def instances(self, dataset: pd.DataFrame, labels: list) -> pd.Series:
@@ -69,8 +69,7 @@ class Usable:
 
         return summary
 
-    @staticmethod
-    def summary() -> (pd.DataFrame, typing.List, typing.List):
+    def summary(self) -> (pd.DataFrame, typing.List, typing.List):
         """
         Reads sources.Sources().summary()
         :return:
@@ -85,10 +84,10 @@ class Usable:
         inventory, fields, labels = sources.Sources().summary()
 
         # In terms of the data in question, how many instances are there per class?
-        instances_per_class: pd.Series = Usable().instances(dataset=inventory, labels=labels)
+        instances_per_class: pd.Series = self.instances(dataset=inventory, labels=labels)
 
         # Hence, outlying classes
-        outlying_classes: pd.Series = Usable().outliers(instances_per_class)
+        outlying_classes: pd.Series = self.outliers(instances_per_class)
 
         # The inadmissible records, i.e., rows.  Herein, we are
         # determining the rows that belong to outlying classes.
