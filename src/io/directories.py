@@ -1,6 +1,6 @@
 import os
 
-import src.federal.federal as federal
+import config as config
 
 
 class Directories:
@@ -10,12 +10,11 @@ class Directories:
         self.name = 'Directories'
 
         # Variables
-        variables = federal.Federal().variables()
+        variables = config.Config().variables()
         self.path = variables['target']['path']
         self.images_path = variables['target']['images']['path']
         self.splits_path = variables['target']['splits']['path']
         self.zips_path = variables['target']['zips']['path']
-
 
     def clear(self):
         """
@@ -38,7 +37,6 @@ class Directories:
 
         if any(directories_):
             raise Exception("Unable to delete all the directories/sub-directories within {}".format(self.path))
-
 
     def create(self):
 
