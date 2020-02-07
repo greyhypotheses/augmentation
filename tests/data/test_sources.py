@@ -1,7 +1,7 @@
-import src.federal.federal as federal
+import config
 import src.data.sources as sources
 
-variables = federal.Federal().variables()
+variables = config.Config().variables()
 
 
 class TestSources:

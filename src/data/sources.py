@@ -4,7 +4,7 @@ import typing
 
 import pandas as pd
 
-import src.federal.federal as federal
+import config
 
 
 class Sources:
@@ -14,10 +14,10 @@ class Sources:
 
     def __init__(self):
         """
-        Herein, the constructor initialises a set of the global/federal variables.  The variables are
-        defined in src/federal/variables.yml
+        Herein, the constructor initialises a set of the global/config variables.  The variables are
+        defined in src/config/variables.yml
         """
-        variables = federal.Federal().variables()
+        variables = config.Config().variables()
         self.truth_url = variables['source']['truth']['url']
         self.truth_use = variables['source']['truth']['use']
         self.truth_key = variables['source']['truth']['key']
@@ -25,11 +25,10 @@ class Sources:
         self.metadata_use = variables['source']['metadata']['use']
         self.metadata_key = variables['source']['metadata']['key']
 
-
     def truth(self) -> pd.DataFrame:
         """
         Reads the ground truth data file.  The location of the file is recorded
-        in the 'federal/variables.yml' file
+        in the 'config/variables.yml' file
         :return:
             truth: A data frame of the data in the file
         """
@@ -41,11 +40,10 @@ class Sources:
 
         return truth
 
-
     def metadata(self) -> pd.DataFrame:
         """
         Reads the metadata data file.  The location of the file is recorded
-        in the 'federal/variables.yml' file
+        in the 'config/variables.yml' file
 
         :return:
             metadata: A data frame of the data in the file
@@ -58,7 +56,6 @@ class Sources:
 
         return metadata
 
-
     def summary(self):
         """
         Reads the 'truth' & 'metadata' files and joins their data via the image name field 'image'
@@ -67,8 +64,8 @@ class Sources:
             labels: The list of the data's classes; the classes are one-hot-coded.
             fields: The list of metadata fields, excluding labels.
         """
-        truth: pd.DataFrame = Sources().truth()
-        metadata: pd.DataFrame = Sources().metadata()
+        truth: pd.DataFrame = self.truth()
+        metadata: pd.DataFrame = self.metadata()
 
         # Join the metadata & truth data frames via common field 'image'
         inventory: pd.DataFrame = metadata.merge(truth, left_on=self.metadata_key, right_on=self.truth_key, how='inner')

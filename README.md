@@ -41,7 +41,17 @@ Thus far the image has been pulled & ran within an Amazon EC2 Linux machine:
 
 ### Via a Docker Container
 
-In the code snippet below, the required image is *pulled* from Docker Hub after ascertaining that docker is running.
+In the code snippet below, the required image is *pulled* from Docker Hub after ascertaining that docker is running.  Foremost, to access the EC2 machine
+
+```bash
+ssh -i <key pair name>.pem ec2-user@<IPv4 Public IP>
+```
+
+This command assumes that the key pair is in the current directory.  Remember, the permissions setting of the key pair must be 400
+
+```bash
+chmod 400 <key pair name>.pem
+```
 
 #### Is docker running?
 
@@ -102,8 +112,9 @@ ls | wc -l
 Case local:
 
 ```bash
-scp -i ***.pem ec2-user@**.**.***.**:~/images/*.csv augmentation/images/
-scp -i ***.pem ec2-user@**.**.***.**:~/images/*zip augmentation/images/
+# https://devhints.io/scp
+scp -i ***.pem ec2-user@**.**.***.**:~/images/inventory.csv /.../.../augmentations/
+scp -i ***.pem -r ec2-user@**.**.***.**:~/images/zips/*.zip /.../.../augmentations/images/
 ```
 
 <br>

@@ -3,7 +3,7 @@ import typing
 
 import pandas as pd
 
-import src.federal.federal as federal
+import config
 
 
 class Prepare:
@@ -11,12 +11,11 @@ class Prepare:
     Class prepare
     """
 
-
     def __init__(self):
         """
         Common Variables
         """
-        variables = federal.Federal().variables()
+        variables = config.Config().variables()
 
         # The images, and the rotation angles to apply per image
         self.rotations = variables['augmentation']['images']['rotations']
@@ -26,7 +25,6 @@ class Prepare:
         # The metadata file fields that have been read-in, and the missing value replacements per field
         self.use = variables['source']['metadata']['use']
         self.if_missing = variables['source']['metadata']['if_missing']
-
 
     def image_url(self, data: pd.DataFrame) -> pd.DataFrame:
         """
@@ -40,7 +38,6 @@ class Prepare:
         data['image_url'] = data['image'].apply(lambda x: self.url + x + self.ext)
 
         return data
-
 
     def missing(self, data: pd.DataFrame) -> pd.DataFrame:
         """
@@ -60,7 +57,6 @@ class Prepare:
             data[self.use[field]] = data[self.use[field]].apply(lambda x: self.if_missing[field] if x == '' else x)
 
         return data
-
 
     def angles(self, data: pd.DataFrame, fields: typing.List, labels: typing.List) -> pd.DataFrame:
         """
@@ -85,9 +81,7 @@ class Prepare:
 
         return data
 
-
-    @staticmethod
-    def summary(data: pd.DataFrame, fields: typing.List, labels: typing.List) -> pd.DataFrame:
+    def summary(self, data: pd.DataFrame, fields: typing.List, labels: typing.List) -> pd.DataFrame:
         """
         Addresses missing data, assigns angles of rotation via angles(),
         and adds an image location/url field via image_url()
@@ -99,12 +93,12 @@ class Prepare:
         """
 
         # Missing Data
-        inventory = Prepare().missing(data)
+        inventory = self.missing(data)
 
         # Add the rotation angles field; each original image will be rotated by a set of angles
-        inventory = Prepare().angles(inventory, fields=fields, labels=labels)
+        inventory = self.angles(inventory, fields=fields, labels=labels)
 
         # Add image_url field
-        inventory = Prepare().image_url(inventory)
+        inventory = self.image_url(inventory)
 
         return inventory

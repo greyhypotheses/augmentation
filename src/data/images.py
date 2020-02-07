@@ -5,7 +5,7 @@ import multiprocessing as mp
 import pandas as pd
 import requests
 
-import src.federal.federal as federal
+import config
 
 
 class Images:
@@ -14,23 +14,21 @@ class Images:
     This class is used by test_images to test the existence of a random set of images during code integration
     """
 
-
     def __init__(self):
         """
-        Herein the constructor is used to initialise the global/federal log settings and variables
+        Herein the constructor is used to initialise the global log settings and variables
         """
 
         # Logging
-        federal.Federal().logs()
+        config.Config().logs()
         self.logger = logging.getLogger()
         self.logger.name = __name__
 
         # Variables
-        variables = federal.Federal().variables()
+        variables = config.Config().variables()
         self.url = variables['source']['images']['url']
         self.ext = variables['source']['images']['ext']
         self.tests_random_sample_size = variables['tests']['random_sample_size']
-
 
     def state(self, image):
         """
@@ -49,7 +47,6 @@ class Images:
 
         # Return image & access status code
         return {'image': image, 'status': 1 if req.status_code == 200 else 0}
-
 
     def states(self, images):
         """
@@ -73,7 +70,7 @@ class Images:
 
         # Determine whether each of the randomly selected images exists in the repository
         # image, status
-        sample_dict = pool.starmap_async(Images().state, (i for i in excerpt_iterable)).get()
+        sample_dict = pool.starmap_async(self.state, (i for i in excerpt_iterable)).get()
         sample_frame = pd.DataFrame(sample_dict)
 
         # Are there any missing images?
