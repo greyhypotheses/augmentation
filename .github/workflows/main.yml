@@ -1,4 +1,4 @@
-name: Derma Python Package
+name: Derma Project
 
 on: [push]
 
