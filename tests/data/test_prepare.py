@@ -1,16 +1,15 @@
 import pytest
 
-import src.data.usable as usable
+import config
 import src.data.prepare as prepare
-
-import src.federal.federal as federal
+import src.data.usable as usable
 
 
 class TestPrepare:
 
     @pytest.fixture
     def variables(self):
-        variables = federal.Federal().variables()
+        variables = config.Config().variables()
         rotations = variables['augmentation']['images']['rotations']
         return rotations
 
@@ -18,7 +17,6 @@ class TestPrepare:
     def dataset(self):
         data, fields, labels = usable.Usable().summary()
         return data, fields, labels
-
 
     def test_summary(self, dataset):
         data, fields, labels = dataset
@@ -33,7 +31,6 @@ class TestPrepare:
         assert any(data.columns == 'image_url'), "An image_url field, which has the URL link to each image, " \
                                                  "is required"
 
-
     def test_angles(self, dataset, variables):
         data, fields, labels = dataset
         data = prepare.Prepare().missing(data=data)
@@ -43,4 +40,3 @@ class TestPrepare:
 
         assert any(inventory.columns == 'angle')
         assert inventory.shape[0] == data.shape[0] * len(rotations)
-
