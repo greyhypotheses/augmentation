@@ -1,32 +1,49 @@
 import os
-
+import requests
 import yaml
+import sys
 
 
-class Federal:
+class Config:
+    """
+    Consists of methods that parse the global settings summarised in the online
+    YAML dictionaries
+    """
 
     def __init__(self):
-        self.path = os.path.split(os.path.abspath(__file__))[0]
+        """
+        The constructor
+        """
+        self.root = os.path.abspath(__package__)
 
-    @staticmethod
-    def paths(partitions):
+    def paths(self, partitions):
+        """
+        Creates a path relative to the project's root directory
+        :param partitions:
+        :return:
+            path: The created from a list of directories
+        """
 
-        path = os.getcwd()
+        path = self.root
         for partition in partitions:
             path = os.path.join(path, partition)
 
         return path
 
-
-    def variables(self):
+    def variables(self) -> dict:
         """
         Parses the generic variables file of this project
 
         :return:
         """
 
-        with open(os.path.join(self.path, 'variables.yml'), 'r') as file:
-            variables = yaml.safe_load(file)
+        url = 'https://raw.githubusercontent.com/greyhypotheses/dictionaries/develop/augmentation/variables.yml'
+        try:
+            req = requests.get(url)
+        except requests.exceptions.RequestException as e:
+            print(e)
+            sys.exit(1)
+        variables = yaml.safe_load(req.text)
 
         variables['augmentation']['images']['strip'] = int(variables['augmentation']['images']['remnant'] / 2)
 
@@ -45,21 +62,27 @@ class Federal:
         variables['augmentation']['images']['centre'] = (columns / 2, rows / 2)
 
         # Paths
-        variables['target']['path'] = Federal().paths(variables['target']['directory'])
-        variables['target']['images']['path'] = Federal().paths(variables['target']['images']['directory'])
-        variables['target']['splits']['path'] = Federal().paths(variables['target']['splits']['directory'])
-        variables['target']['zips']['path'] = Federal().paths(variables['target']['zips']['directory'])
+        variables['target']['path'] = self.paths(variables['target']['directory'])
+        variables['target']['images']['path'] = self.paths(variables['target']['images']['directory'])
+        variables['target']['splits']['path'] = self.paths(variables['target']['splits']['directory'])
+        variables['target']['zips']['path'] = self.paths(variables['target']['zips']['directory'])
 
         return variables
 
-    def logs(self):
+    @staticmethod
+    def logs() -> dict:
         """
         Parses the logs settings file of this project
 
         :return:
         """
 
-        with open(os.path.join(self.path, 'logs.yml'), 'r') as file:
-            logs = yaml.safe_load(file)
+        url = 'https://raw.githubusercontent.com/greyhypotheses/dictionaries/develop/derma/logs.yml'
+        try:
+            req = requests.get(url)
+        except requests.exceptions.RequestException as e:
+            print(e)
+            sys.exit(1)
+        logs = yaml.safe_load(req.text)
 
         return logs
