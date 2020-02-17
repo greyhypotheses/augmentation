@@ -47,20 +47,6 @@ class Config:
 
         variables['augmentation']['images']['strip'] = int(variables['augmentation']['images']['remnant'] / 2)
 
-        # The required image dimensions.
-        dimensions = (variables['augmentation']['images']['rows'], variables['augmentation']['images']['columns'])
-
-        # The temporary image size.  In order to avoid edge artefacts the image is resized to a
-        # size slightly greater than required, then clipped after all other
-        # transformation steps.
-        temporary_size = (dimensions[0] + variables['augmentation']['images']['remnant'],
-                          dimensions[1] + variables['augmentation']['images']['remnant'])
-        variables['augmentation']['images']['temporary_size'] = temporary_size
-
-        # The centre point about which a rotation should occur
-        rows, columns = temporary_size[0], temporary_size[1]
-        variables['augmentation']['images']['centre'] = (columns / 2, rows / 2)
-
         # Paths
         variables['target']['path'] = self.paths(variables['target']['directory'])
         variables['target']['images']['path'] = self.paths(variables['target']['images']['directory'])
