@@ -2,6 +2,7 @@
 
 import os
 import sys
+import argparse
 
 import dask.array as da
 import pandas as pd
@@ -9,6 +10,7 @@ import pandas as pd
 if __name__ == '__main__':
     sys.path.append(os.getcwd())
     sys.path.append(os.path.join(os.getcwd(), 'src'))
+    import config
     import src.data.generator as generator
     import src.data.prepare as prepare
     import src.data.usable as usable
@@ -23,6 +25,27 @@ def main():
     :return:
     """
 
+    # Parse the expected input argument
+    parser = argparse.ArgumentParser()
+    parser.add_argument("image_length", help="The number of rows or columns of the prospective square images; "
+                                             "all pre-trained convolution neural network bases require square "
+                                             "image inputs.")
+    args = parser.parse_args()
+
+    # Validate the argument's type
+    try:
+        isinstance(int(args.image_length), int)
+        image_length = int(args.image_length)
+    except TypeError as e:
+        print(e)
+        sys.exit(1)
+
+    # Ensure that the 'image_length' argument is greater than the general minimum expected.
+    variables = config.Config().variables()
+    minimum_length = variables['augmentation']['images']['minimum_length']
+    if image_length < minimum_length:
+        raise Exception("The length of each prospective square image must be at least {}".format(minimum_length))
+
     # Clear the current set of images
     directories.Directories().clear()
 
@@ -32,17 +55,13 @@ def main():
     # Prepare
     inventory = prepare.Prepare().summary(data=inventory, fields=fields, labels=labels)
 
-    # Unnecessary augmentations
-    inventory = inventory.loc[~((inventory.NV == 1) & (inventory.angle > 0))]
-    inventory.reset_index(inplace=True, drop=True)
-
     # Directory for augmentations
     directories.Directories().create()
 
     # Augmentation
-    outcomes = [generator.Generator().images(filename=image_url.compute(), angle=angle.compute())
-                for image_url, angle in da.from_array(inventory[['image_url', 'angle']].to_numpy(), chunks=64)]
-
+    outcomes = [generator.Generator(image_length=image_length).images(
+        filename=image_url.compute(), angle=angle.compute()
+    ) for image_url, angle in da.from_array(inventory[['image_url', 'angle']].to_numpy()[:12800], chunks=(64, 2))]
     augmentations = pd.DataFrame(outcomes, columns=['name', 'image', 'angle', 'drawn'])
 
     # Save inventory, split the directory of image files into smaller directories, zip
