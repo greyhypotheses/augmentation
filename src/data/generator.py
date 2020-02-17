@@ -13,7 +13,7 @@ class Generator:
     Class Generator
     """
 
-    def __init__(self):
+    def __init__(self, image_length: int):
         """
         Common variables
         """
@@ -24,11 +24,16 @@ class Generator:
         # Strip: The length that would subsequently be stripped off each edge of an image
         self.strip = variables['augmentation']['images']['strip']
 
-        # The temporary image size.
-        self.temporary_size = variables['augmentation']['images']['temporary_size']
+        # The temporary image size.  In order to avoid edge artefacts the image is resized to a
+        # size slightly greater than required, then clipped after all other
+        # transformation steps.
+        dimensions = (image_length, image_length)
+        self.temporary_size = (dimensions[0] + variables['augmentation']['images']['remnant'],
+                               dimensions[1] + variables['augmentation']['images']['remnant'])
 
         # The centre point about which a rotation should occur
-        self.centre = variables['augmentation']['images']['centre']
+        rows, columns = self.temporary_size[0], self.temporary_size[1]
+        self.centre = (columns / 2, rows / 2)
 
         # Save path
         self.path = variables['target']['images']['path']
