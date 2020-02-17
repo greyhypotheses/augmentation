@@ -1,0 +1,110 @@
+{
+    "name": "",
+    "description": "",
+    "source": {
+        "type": "",
+        "location": "",
+        "gitCloneDepth": 0,
+        "buildspec": "",
+        "auth": {
+            "type": "",
+            "resource": ""
+        },
+        "reportBuildStatus": true,
+        "insecureSsl": true,
+        "sourceIdentifier": ""
+    },
+    "secondarySources": [
+        {
+            "type": "",
+            "location": "",
+            "gitCloneDepth": 0,
+            "buildspec": "",
+            "auth": {
+                "type": "",
+                "resource": ""
+            },
+            "reportBuildStatus": true,
+            "insecureSsl": true,
+            "sourceIdentifier": ""
+        }
+    ],
+    "artifacts": {
+        "type": "",
+        "location": "",
+        "path": "",
+        "namespaceType": "",
+        "name": "",
+        "packaging": "",
+        "overrideArtifactName": true,
+        "encryptionDisabled": true,
+        "artifactIdentifier": ""
+    },
+    "secondaryArtifacts": [
+        {
+            "type": "",
+            "location": "",
+            "path": "",
+            "namespaceType": "",
+            "name": "",
+            "packaging": "none",
+            "overrideArtifactName": true,
+            "encryptionDisabled": true,
+            "artifactIdentifier": ""
+        }
+    ],
+    "cache": {
+        "type": "S3",
+        "location": ""
+    },
+    "environment": {
+        "type": "",
+        "image": "",
+        "computeType": "",
+        "environmentVariables": [
+            {
+                "name": "",
+                "value": "",
+                "type": "plaintext"
+            }
+        ],
+        "privilegedMode": true,
+        "certificate": "",
+        "registryCredential": {
+            "credential": "",
+            "credentialProvider": "secrets manager"
+        },
+        "imagePullCredentialsType": "service role"
+    },
+    "serviceRole": "",
+    "timeoutInMinutes": 0,
+    "queuedTimeoutInMinutes": 0,
+    "encryptionKey": "",
+    "tags": [
+        {
+            "key": "",
+            "value": ""
+        }
+    ],
+    "vpcConfig": {
+        "vpcId": "",
+        "subnets": [
+            ""
+        ],
+        "securityGroupIds": [
+            ""
+        ]
+    },
+    "badgeEnabled": true,
+    "logsConfig": {
+        "cloudWatchLogs": {
+            "status": "enabled",
+            "groupName": "",
+            "streamName": ""
+        },
+        "s3Logs": {
+            "status": "enabled",
+            "location": ""
+        }
+    }
+}
