@@ -61,7 +61,7 @@ def main():
     # Augmentation
     outcomes = [generator.Generator(image_length=image_length).images(
         filename=image_url.compute(), angle=angle.compute()
-    ) for image_url, angle in da.from_array(inventory[['image_url', 'angle']].to_numpy()[:12800], chunks=(64, 2))]
+    ) for image_url, angle in da.from_array(inventory[['image_url', 'angle']].to_numpy(), chunks=(64, 2))]
     augmentations = pd.DataFrame(outcomes, columns=['name', 'image', 'angle', 'drawn'])
 
     # Save inventory, split the directory of image files into smaller directories, zip
