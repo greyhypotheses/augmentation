@@ -12,3 +12,7 @@ sudo docker rmi $(sudo docker images -a -q)
 
 # Delete all project files & directories.
 sudo rm -rf images/
+
+# Delete scripts
+rm model.sh
+rm synchronise.sh
