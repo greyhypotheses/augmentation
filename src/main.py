@@ -36,8 +36,8 @@ def main():
     try:
         isinstance(int(args.image_length), int)
         image_length = int(args.image_length)
-    except TypeError as e:
-        print(e)
+    except TypeError as exception:
+        print(exception)
         sys.exit(1)
 
     # Ensure that the 'image_length' argument is greater than the general minimum expected.
