@@ -1,7 +1,7 @@
 #!/bin/bash
 cd ~
 
-# Runs the augmentation model.  It requires one integer argument; image_length, i.e.,
+# Runs the augmentation package.  It requires one integer argument; image_length, i.e.,
 # the required length of each prospective square image, such that
 #
 #   image_length >= augmentation.images.minimum_length
