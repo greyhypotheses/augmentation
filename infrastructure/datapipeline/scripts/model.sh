@@ -10,4 +10,4 @@ cd ~
 #
 #   https://github.com/greyhypotheses/dictionaries/blob/develop/augmentation/variables.yml
 #
-sudo docker run -v ~/images:/app/images greyhypotheses/derma:augmentation src/main.py $1 $2
+sudo docker run -v $HOME/images:/app/images greyhypotheses/derma:augmentation src/main.py $1 $2
