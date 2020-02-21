@@ -2,6 +2,7 @@ branch|state
 :---|:---
 develop|![](https://github.com/greyhypotheses/augmentation/workflows/Derma%20Python%20Package/badge.svg?branch=develop)
 master|![](https://github.com/greyhypotheses/augmentation/workflows/Derma%20Python%20Package/badge.svg?branch=master)
+codebuild develop|![](https://codebuild.us-east-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiSld3ZGI1SGhGeVd5azUzV1pwL0EyYkdYdUxSNjJlU3dhQWppL3RrM0FpL0EwWEs3YVNPV1R1UDhseXNFYjBEdFFiQVZlVVVMSUg1NWFZcmRRZkIxcHFvPSIsIml2UGFyYW1ldGVyU3BlYyI6InVXZWpVcytsSytkOVlqNUkiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=develop)
 
 <br>
 
@@ -16,13 +17,15 @@ repositories. It creates augmentations of the original images of [dermatology](h
 
 * Runtime image dimensions argument, i.e., the ability to input a tuple of the required width & height at runtime.
 * Non-mandatory angle of rotation; presently, this must be specified in the global variables dictionary.
-* Online based [YAML global dictionaries](./src/federal).
+* Online based [YAML global dictionaries]().
 * Missing tests.
 
 <br>
 <br>
 
 ## Steps
+
+<img src="docs/regular.png" width="400" style="float:middle;">
 
 The entry point, control centre, of this repository/package is [src/main.py](./src/main.py).  The program runs all the algorithms of this repository/package.  In terms of image transformations, each image is transformed according to the steps of [generator.Generator().augment(...)](./src/data/generator.py)
 
@@ -44,7 +47,7 @@ Thus far the image has been pulled & ran within an Amazon EC2 Linux machine:
 In the code snippet below, the required image is *pulled* from Docker Hub after ascertaining that docker is running.  Foremost, to access the EC2 machine
 
 ```bash
-ssh -i <key pair name>.pem ec2-user@<IPv4 Public IP>
+ssh -i {key pair name}.pem ec2-user@{IPv4 Public IP}
 ```
 
 This command assumes that the key pair is in the current directory.  Remember, the permissions setting of the key pair must be 400
