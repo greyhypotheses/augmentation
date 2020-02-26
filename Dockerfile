@@ -15,6 +15,7 @@ RUN pip install --requirement /app/requirements.txt
 
 # Specific COPY
 COPY src /app/src
+COPY config.py /app/config.py
 
 # Port
 EXPOSE 8050
