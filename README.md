@@ -38,6 +38,8 @@ docker run -v ~/images:/app/images greyhypotheses/derma:augmentation src/main.py
 ### Pending
  * The re-design of configurations access.  
 
+<br>
+<br>
 
 ## Steps
 
@@ -69,8 +71,9 @@ ssh -i {key pair name}.pem ec2-user@{IPv4 Public IP}
 This command assumes that the key pair is in the current directory.  Remember, the permissions setting of the key pair must be 400
 
 ```bash
-chmod 400 <key pair name>.pem
+chmod 400 {key pair name}.pem
 ```
+<br>
 
 #### Is docker running?
 
@@ -88,7 +91,7 @@ sudo usermod -a -G docker ec2-user
 exit
 
 # Login again
-ssh -i ***.pem ec2-user@**.**.***.**
+ssh -i {key pair name}.pem ec2-user@{IPv4 Public IP}
 
 # Hence
 docker info
@@ -117,14 +120,13 @@ Running a container of the image, as outlined below, runs the algorithms of this
 # Help: https://docs.docker.com/engine/reference/commandline/run/
 # -v ~/images:/app/images => mapping local path ~/images to the volume of the container, i.e., /app/images
 # -d => run the container in the background
-docker run -d -v ~/images:/app/images greyhypotheses/derma:augmentation
+docker run -d -v ~/images:/app/images greyhypotheses/derma:augmentation {image_length} --preview {preview}
 
 # Thus far, how many images?
 cd images
 ls | wc -l
 ```
 
-<br>
 <br>
 
 #### Download Option
@@ -133,8 +135,8 @@ Case local:
 
 ```bash
 # https://devhints.io/scp
-scp -i ***.pem ec2-user@**.**.***.**:~/images/inventory.csv /.../.../augmentations/
-scp -i ***.pem -r ec2-user@**.**.***.**:~/images/zips/*.zip /.../.../augmentations/images/
+scp -i {key pair name}.pem ec2-user@{IPv4 Public IP}:~/.../inventory.csv {local directory}
+scp -i {key pair name}.pem -r ec2-user@{IPv4 Public IP}:~/.../*.zip {local directory}
 ```
 
 <br>
