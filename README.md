@@ -73,7 +73,7 @@ This command assumes that the key pair is in the current directory.  Remember, t
 ```bash
 chmod 400 {key pair name}.pem
 ```
-<br>
+
 
 #### Is docker running?
 
@@ -98,7 +98,6 @@ docker info
 
 ```
 
-<br>
 
 #### Hence, pull the image
 
@@ -109,7 +108,6 @@ docker pull greyhypotheses/derma:augmentation
 
 ```
 
-<br>
 
 #### Run a container
 
@@ -126,8 +124,6 @@ docker run -d -v ~/images:/app/images greyhypotheses/derma:augmentation {image_l
 cd images
 ls | wc -l
 ```
-
-<br>
 
 #### Download Option
 
