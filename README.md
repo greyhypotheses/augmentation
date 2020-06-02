@@ -15,13 +15,29 @@ This repository complements the
 
 repositories. It creates augmentations of the original images of [dermatology](https://github.com/greyhypotheses/dermatology) for the models of [derma](https://github.com/greyhypotheses/derma).  This is a critical step because the models of [derma](https://github.com/greyhypotheses/derma) include deep transfer learning models that require specific image dimensions.  Upcoming updates to this prospective package are
 
-* Runtime image dimensions argument, i.e., the ability to input a tuple of the required width & height at runtime.
 * Non-mandatory angle of rotation; presently, this must be specified in the global variables dictionary.
-* Online based [YAML global dictionaries]().
 * Missing tests.
+* Incomplete doc string texts
 
 <br>
 <br>
+
+## Quick Start
+
+This package is used to create/prepare image augmentations for deep convolution neural network modelling.   At present, each augmentation is a square image, albeit three channelled.  [local: python src/main.py 224 --preview 64]
+
+```bash
+docker pull greyhypotheses/derma:augmentation
+mkdir images
+docker run -v ~/images:/app/images greyhypotheses/derma:augmentation src/main.py {image_length} --preview {preview}
+```
+
+* image_length: the length of the side of a square image
+* preview: Optional.  The number of images to initially augment,  for previewing purposes.
+
+### Pending
+ * The re-design of configurations access.  
+
 
 ## Steps
 
@@ -109,6 +125,7 @@ ls | wc -l
 ```
 
 <br>
+<br>
 
 #### Download Option
 
@@ -125,14 +142,28 @@ scp -i ***.pem -r ec2-user@**.**.***.**:~/images/zips/*.zip /.../.../augmentatio
 
 ### Docker Help Notes
 
+In the case of *group* actions
 
-#### Clearing Docker Containers
+```bash
+# stop all containers
+docker stop $(docker ps -a -q)
+
+# delete all containers, and delete associated volumes
+docker rm -v $(docker ps -a -q)
+
+# delete all images
+docker rmi $(docker images -a -q)
+```
+<br>
+
+In the case of single docker containers
+
 ```bash
 # -v ensures that associated volumes are also deleted
 docker rm -v ... [container code]
 ```
 
-#### Clearing Docker Volumes
+or, just the volumes of the containers
 
 ```bash
 # List volumes
@@ -142,7 +173,10 @@ docker volume ls
 docker volume rm $(docker volume ls -q)
 ```
 
-#### Clearing Docker Images
+<br>
+
+Finally, removing a docker image
+
 ```bash
 # -v ensures that associated volumes are also deleted
 docker rmi ... [image code]
