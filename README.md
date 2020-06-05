@@ -29,7 +29,8 @@ This package is used to create/prepare image augmentations for deep convolution 
 ```bash
 docker pull greyhypotheses/derma:augmentation
 mkdir images
-docker run -v ~/images:/app/images greyhypotheses/derma:augmentation src/main.py {image_length} --preview {preview}
+docker run -v ~/images:/app/images greyhypotheses/derma:augmentation 
+    src/main.py {image_length} --preview {preview}
 ```
 
 * image_length: the length of the side of a square image
