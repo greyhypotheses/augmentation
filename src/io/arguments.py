@@ -22,6 +22,6 @@ class Arguments:
 
     def preview(self, value):
         if int(value) < self.number_of_images:
-            raise argparse.ArgumentTypeError("The argument '--small' must be a positive integer "
+            raise argparse.ArgumentTypeError("The argument '--preview' must be a positive integer "
                                              "greater than or equal to {}".format(self.number_of_images))
         return int(value)
