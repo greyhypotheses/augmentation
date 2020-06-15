@@ -7,16 +7,6 @@ import argparse
 import dask.array as da
 import pandas as pd
 
-if __name__ == '__main__':
-    sys.path.append(os.getcwd())
-    sys.path.append(os.path.join(os.getcwd(), 'src'))
-    import src.data.generator as generator
-    import src.data.prepare as prepare
-    import src.data.usable as usable
-    import src.data.preserve as preserve
-    import src.io.directories as directories
-    import src.io.arguments as arguments
-
 
 def main():
     """
@@ -63,4 +53,13 @@ def main():
 
 
 if __name__ == '__main__':
+    root = os.getcwd()
+    sys.path.append(root)
+    sys.path.append(os.path.join(root, 'src'))
+    import src.data.generator as generator
+    import src.data.prepare as prepare
+    import src.data.usable as usable
+    import src.data.preserve as preserve
+    import src.io.directories as directories
+    import src.io.arguments as arguments
     main()
