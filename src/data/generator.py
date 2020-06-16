@@ -3,7 +3,6 @@ import os
 
 import dask
 
-import config
 import src.geometry.transform as transform
 import src.io.images as images
 
@@ -13,30 +12,30 @@ class Generator:
     Class Generator
     """
 
-    def __init__(self, image_length: int):
+    def __init__(self, var):
         """
         Common variables
         """
 
-        # An instance of variables
-        variables = config.Config().variables()
+        # The length/breadth of each square image
+        self.image_length = var.augmentation.images.image_length
 
         # Strip: The length that would subsequently be stripped off each edge of an image
-        self.strip = variables['augmentation']['images']['strip']
+        self.strip = var.augmentation.images.strip
 
         # The temporary image size.  In order to avoid edge artefacts the image is resized to a
         # size slightly greater than required, then clipped after all other
         # transformation steps.
-        dimensions = (image_length, image_length)
-        self.temporary_size = (dimensions[0] + variables['augmentation']['images']['remnant'],
-                               dimensions[1] + variables['augmentation']['images']['remnant'])
+        dimensions = (self.image_length, self.image_length)
+        self.temporary_size = (dimensions[0] + var.augmentation.images.remnant,
+                               dimensions[1] + var.augmentation.images.remnant)
 
         # The centre point about which a rotation should occur
         rows, columns = self.temporary_size[0], self.temporary_size[1]
         self.centre = (columns / 2, rows / 2)
 
         # Save path
-        self.path = variables['target']['images']['path']
+        self.path = var.target.images.path
 
     def augment(self, image, angle):
         """
@@ -64,7 +63,7 @@ class Generator:
         # Return
         return clipped
 
-    def images(self, filename, angle):
+    def exc(self, filename, angle):
         """
         The image augmentation steps, which are executed via Dask
 

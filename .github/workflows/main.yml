@@ -59,8 +59,9 @@ jobs:
           printf "\n"
           echo "============================= pylint session starts =============================="
           printf "\n"
+          printf "\nsrc/data"
           pylint --rcfile .pylintrc src/data
-          pylint --rcfile .pylintrc src/main.py
+          # pylint --rcfile .pylintrc src/main.py
       - name: Test with pytest
         run: |
           pip install pytest

@@ -7,10 +7,8 @@ import zipfile
 
 import pandas as pd
 
-import config
 
-
-class Preserve:
+class Write:
     """
     Class Preserve
 
@@ -21,18 +19,16 @@ class Preserve:
         * metadata details of each image in a single csv file
     """
 
-    def __init__(self):
-
-        variables = config.Config().variables()
+    def __init__(self, var):
 
         # Paths
-        self.path = variables['target']['path']
-        self.images_path = variables['target']['images']['path']
-        self.splits_path = variables['target']['splits']['path']
-        self.zips_path = variables['target']['zips']['path']
+        self.path = var.target.path
+        self.images_path = var.target.images.path
+        self.splits_path = var.target.splits.path
+        self.zips_path = var.target.zips.path
 
         # Number of images per split; for zipping purposes
-        self.images_per_split = variables['target']['splits']['images_per_split']
+        self.images_per_split = var.target.splits.images_per_split
 
     def splitting(self, image_name: str, image_index: int) -> None:
         """
@@ -83,7 +79,7 @@ class Preserve:
 
         zip_object.close()
 
-    def steps(self, inventory: pd.DataFrame, augmentations: pd.DataFrame) -> None:
+    def exc(self, inventory: pd.DataFrame, augmentations: pd.DataFrame) -> None:
         """
         :type inventory: pd.DataFrame
         :type augmentations: pd.DataFrame

@@ -5,12 +5,12 @@ coverage==4.5.4
 pytest-cov==2.8.1
 pylint==2.4.4
 scikit-image==0.15.0
-dotmap==1.3.8
+dotmap==1.3.17
 flake8==3.7.9
 jupyterlab==1.2.4
 seaborn==0.9.0
 requests==2.22.0
-## Indirectly installed by dask, added to the requirements list by pip freeze, and retained here for debugging:
+## Indirectly installed by dask, retained for debugging:
 pandas==0.25.3
 PyYAML==5.1.2
 matplotlib==3.1.1

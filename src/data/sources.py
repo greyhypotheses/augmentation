@@ -4,26 +4,24 @@ import typing
 
 import pandas as pd
 
-import config
-
 
 class Sources:
     """
     Class Sources
     """
 
-    def __init__(self):
+    def __init__(self, var):
         """
         Herein, the constructor initialises a set of the global/config variables.  The variables are
         defined in src/config/variables.yml
         """
-        variables = config.Config().variables()
-        self.truth_url = variables['source']['truth']['url']
-        self.truth_use = variables['source']['truth']['use']
-        self.truth_key = variables['source']['truth']['key']
-        self.metadata_url = variables['source']['metadata']['url']
-        self.metadata_use = variables['source']['metadata']['use']
-        self.metadata_key = variables['source']['metadata']['key']
+
+        self.truth_url = var.source.truth.url
+        self.truth_use = var.source.truth.use
+        self.truth_key = var.source.truth.key
+        self.metadata_url = var.source.metadata.url
+        self.metadata_use = var.source.metadata.use
+        self.metadata_key = var.source.metadata.key
 
     def truth(self) -> pd.DataFrame:
         """
@@ -56,7 +54,7 @@ class Sources:
 
         return metadata
 
-    def summary(self):
+    def exc(self):
         """
         Reads the 'truth' & 'metadata' files and joins their data via the image name field 'image'
         :return:

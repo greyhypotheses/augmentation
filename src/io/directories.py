@@ -1,20 +1,14 @@
 import os
 
-import config as config
-
 
 class Directories:
 
-    def __init__(self):
+    def __init__(self, var):
 
-        self.name = 'Directories'
-
-        # Variables
-        variables = config.Config().variables()
-        self.path = variables['target']['path']
-        self.images_path = variables['target']['images']['path']
-        self.splits_path = variables['target']['splits']['path']
-        self.zips_path = variables['target']['zips']['path']
+        self.path = var.target.path
+        self.images_path = var.target.images.path
+        self.splits_path = var.target.splits.path
+        self.zips_path = var.target.zips.path
 
     def clear(self):
         """

@@ -7,16 +7,6 @@ import argparse
 import dask.array as da
 import pandas as pd
 
-if __name__ == '__main__':
-    sys.path.append(os.getcwd())
-    sys.path.append(os.path.join(os.getcwd(), 'src'))
-    import src.data.generator as generator
-    import src.data.prepare as prepare
-    import src.data.usable as usable
-    import src.data.preserve as preserve
-    import src.io.directories as directories
-    import src.io.arguments as arguments
-
 
 def main():
     """
@@ -25,42 +15,64 @@ def main():
     :return:
     """
 
-    # Parse the expected input argument
-    parser = argparse.ArgumentParser()
-    parser.add_argument("image_length", type=arguments.Arguments().image_length,
-                        help="The number of rows or columns of the prospective square images; "
-                             "all pre-trained convolution neural network bases require square image inputs.")
-    parser.add_argument("-p", "--preview", type=arguments.Arguments().preview,
-                        help="Augment a specified, small, number of images")
-    args = parser.parse_args()
-
     # Clear the current set of images
-    directories.Directories().clear()
+    directories.clear()
 
     # A summary of images metadata & labels, a list of the label fields, and a list of the metadata fields
-    inventory, fields, labels = usable.Usable().summary()
+    inventory, fields, labels = preliminaries.exc()
 
     # Prepare
-    inventory = prepare.Prepare().summary(data=inventory, fields=fields, labels=labels)
+    inventory = prepare.exc(data=inventory, fields=fields, labels=labels)
 
     # If preview has a value
-    if args.preview is not None:
-        limit = args.preview
+    if args.sample is not None:
+        limit = args.sample
     else:
         limit = inventory.shape[0]
 
     # Directory for augmentations
-    directories.Directories().create()
+    directories.create()
 
     # Augmentation
-    outcomes = [generator.Generator(image_length=args.image_length).images(
-        filename=image_url.compute(), angle=angle.compute()
-    ) for image_url, angle in da.from_array(inventory[['image_url', 'angle']].to_numpy()[:limit], chunks=(64, 2))]
+    outcomes = [generator.exc(filename=image_url.compute(), angle=angle.compute())
+                for image_url, angle
+                in da.from_array(inventory[['image_url', 'angle']].to_numpy()[:limit], chunks=(64, 2))]
     augmentations = pd.DataFrame(outcomes, columns=['name', 'image', 'angle', 'drawn'])
 
     # Save inventory, split the directory of image files into smaller directories, zip
-    preserve.Preserve().steps(inventory, augmentations)
+    write.exc(inventory, augmentations)
 
 
 if __name__ == '__main__':
+    root = os.getcwd()
+    sys.path.append(root)
+    sys.path.append(os.path.join(root, 'src'))
+    import src.data.generator
+    import src.data.prepare
+    import src.data.preliminaries
+    import src.data.write
+    import src.io.directories
+    import src.io.arguments
+
+    # Parse the expected input argument
+    arguments = src.io.arguments.Arguments()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('elements',
+                        type=arguments.url,
+                        help='The URL of a YAML of parameters; refer to the README notes.  The argument '
+                             'parser returns a blob of elements')
+    parser.add_argument("--sample", type=arguments.sample,
+                        help="Augment a specified, small, number of images")
+    args = parser.parse_args()
+
+    # Get the data parameters encoded by the input
+    var = arguments.parameters(elements=args.elements)
+
+    # Instances
+    directories = src.io.directories.Directories(var=var)
+    preliminaries = src.data.preliminaries.Preliminaries(var=var)
+    prepare = src.data.prepare.Prepare(var=var)
+    generator = src.data.generator.Generator(var=var)
+    write = src.data.write.Write(var=var)
+
     main()

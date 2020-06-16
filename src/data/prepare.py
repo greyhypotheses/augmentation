@@ -3,28 +3,25 @@ import typing
 
 import pandas as pd
 
-import config
-
 
 class Prepare:
     """
     Class prepare
     """
 
-    def __init__(self):
+    def __init__(self, var):
         """
         Common Variables
         """
-        variables = config.Config().variables()
 
         # The images, and the rotation angles to apply per image
-        self.rotations = variables['augmentation']['images']['rotations']
-        self.url = variables['source']['images']['url']
-        self.ext = variables['source']['images']['ext']
+        self.rotations = var.augmentation.images.rotations
+        self.url = var.source.images.url
+        self.ext = var.source.images.ext
 
         # The metadata file fields that have been read-in, and the missing value replacements per field
-        self.use = variables['source']['metadata']['use']
-        self.if_missing = variables['source']['metadata']['if_missing']
+        self.use = var.source.metadata.use
+        self.if_missing = var.source.metadata.if_missing
 
     def image_url(self, data: pd.DataFrame) -> pd.DataFrame:
         """
@@ -81,7 +78,7 @@ class Prepare:
 
         return data
 
-    def summary(self, data: pd.DataFrame, fields: typing.List, labels: typing.List) -> pd.DataFrame:
+    def exc(self, data: pd.DataFrame, fields: typing.List, labels: typing.List) -> pd.DataFrame:
         """
         Addresses missing data, assigns angles of rotation via angles(),
         and adds an image location/url field via image_url()
