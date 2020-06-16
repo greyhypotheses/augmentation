@@ -4,8 +4,6 @@ import typing
 
 import pandas as pd
 
-import config
-
 
 class Sources:
     """
