@@ -24,20 +24,17 @@ repositories. It creates augmentations of the original images of [dermatology](h
 
 ## Quick Start
 
-This package is used to create/prepare image augmentations for deep convolution neural network modelling.   At present, each augmentation is a square image, albeit three channelled.  [local: python src/main.py 224 --preview 64]
+This package is used to create/prepare image augmentations for deep convolution neural network modelling.   At present, each augmentation is a square image, albeit three channelled.  [local: python src/main.py [yaml](https://raw.githubusercontent.com/greyhypotheses/dictionaries/develop/augmentation/variables.yml) --sample 64]
 
 ```bash
 docker pull greyhypotheses/derma:augmentation
 mkdir images
-docker run -v ~/images:/app/images greyhypotheses/derma:augmentation 
-    src/main.py {image_length} --preview {preview}
+docker run -v ~/images:/app/images greyhypotheses/derma:augmentation
+    src/main.py {YAML URL} --sample {sample}
 ```
 
-* image_length: the length of the side of a square image
-* preview: Optional.  The number of images to initially augment,  for previewing purposes.
-
-### Pending
- * The re-design of configurations access.  
+* YAML URL: The URL of a YAML of parameters/variable, e.g., [variables.yml](https://raw.githubusercontent.com/greyhypotheses/dictionaries/develop/augmentation/variables.yml)
+* sample: Optional.  The number of images to initially augment, for previewing purposes.
 
 <br>
 <br>
@@ -119,7 +116,7 @@ Running a container of the image, as outlined below, runs the algorithms of this
 # Help: https://docs.docker.com/engine/reference/commandline/run/
 # -v ~/images:/app/images => mapping local path ~/images to the volume of the container, i.e., /app/images
 # -d => run the container in the background
-docker run -d -v ~/images:/app/images greyhypotheses/derma:augmentation {image_length} --preview {preview}
+docker run -d -v ~/images:/app/images greyhypotheses/derma:augmentation {YAML URL} --sample {sample}
 
 # Thus far, how many images?
 cd images
