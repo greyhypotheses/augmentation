@@ -13,11 +13,9 @@ This repository complements the
 * [derma](https://github.com/greyhypotheses/derma)
 * [dermatology](https://github.com/greyhypotheses/dermatology)
 
-repositories. It creates augmentations of the original images of [dermatology](https://github.com/greyhypotheses/dermatology) for the models of [derma](https://github.com/greyhypotheses/derma).  This is a critical step because the models of [derma](https://github.com/greyhypotheses/derma) include deep transfer learning models that require specific image dimensions.  Upcoming updates to this prospective package are
+repositories. It creates augmentations of the original images of [dermatology](https://github.com/greyhypotheses/dermatology) for the models of [derma](https://github.com/greyhypotheses/derma).  Augmentation increases the number of images available for model development.  Much more critically, augmentation is one of the tools for addressing data imbalances; the [dermatoscopic images data set is quite imbalanced.](https://colab.research.google.com/drive/1H1Afh8siQ6bsVdVaaq4qoQASQhNnoyWT).
 
-* Non-mandatory angle of rotation; presently, this must be specified in the global variables dictionary.
-* Missing tests.
-* Incomplete doc string texts
+* Incomplete: doc string texts
 
 <br>
 <br>
@@ -114,8 +112,10 @@ Running a container of the image, as outlined below, runs the algorithms of this
 ```bash
 # Container
 # Help: https://docs.docker.com/engine/reference/commandline/run/
-# -v ~/images:/app/images => mapping local path ~/images to the volume of the container, i.e., /app/images
-# -d => run the container in the background
+# -v ~/images:/app/images => 
+#       mapping local path ~/images to the volume of the container, i.e., /app/images
+# -d => 
+#       run the container in the background
 docker run -d -v ~/images:/app/images greyhypotheses/derma:augmentation {YAML URL} --sample {sample}
 
 # Thus far, how many images?
