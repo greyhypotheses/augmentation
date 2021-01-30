@@ -14,8 +14,8 @@ codebuild develop|![](https://codebuild.us-east-1.amazonaws.com/badges?uuid=eyJl
   * [In Brief](#in-brief)  
   * [In Detail](#in-detail)  
     * [Steps Outline](#outline-of-steps)
-    * [Steps Notes](#notes)
-      [Docker Container](#docker-container)
+    * [Steps Notes](#notes)<br>
+      [Running via a Docker Container](#running-via-a-docker-container)
 * [Docker Help Notes](#docker-help-notes)
 
 <br>
@@ -99,7 +99,7 @@ Thus far the image has been pulled & ran within an Amazon EC2 Linux machine:
 
 <br>
 
-##### Docker Container
+##### Running via a Docker Container
 
 In the code snippet below, the required image is *pulled* from Docker Hub after ascertaining that docker is running.  Foremost, to access the EC2 machine
 
