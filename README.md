@@ -1,3 +1,5 @@
+# Augmentation
+
 branch|state
 :---|:---
 develop|![](https://github.com/greyhypotheses/augmentation/workflows/Derma%20Python%20Package/badge.svg?branch=develop)
@@ -5,8 +7,19 @@ master|![](https://github.com/greyhypotheses/augmentation/workflows/Derma%20Pyth
 codebuild develop|![](https://codebuild.us-east-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiSld3ZGI1SGhGeVd5azUzV1pwL0EyYkdYdUxSNjJlU3dhQWppL3RrM0FpL0EwWEs3YVNPV1R1UDhseXNFYjBEdFFiQVZlVVVMSUg1NWFZcmRRZkIxcHFvPSIsIml2UGFyYW1ldGVyU3BlYyI6InVXZWpVcytsSytkOVlqNUkiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=develop)
 
 <br>
+<br>
 
-# Augmentation
+* [Develpment Environment](#development-environment)
+* [Running](#running)
+  * [In Brief](#in-brief)  
+  * [In Detail](#in-detail)  
+    * [Steps Outline](#outline-of-steps)
+    * [Steps Notes](#notes)
+      [Docker Container](#docker-container)
+* [Docker Help Notes](#docker-help-notes)
+
+<br>
+<br>
 
 This repository complements the
 
@@ -20,7 +33,35 @@ repositories. It creates augmentations of the original images of [dermatology](h
 <br>
 <br>
 
-## Quick Start
+## Development Environment
+
+```bash
+    conda create --prefix ~/Anaconda3/envs/augmentation python=3.7 # installs: pyyaml
+    conda install -c anaconda dask  # installs: numpy, pandas   
+    conda install -c anaconda python-graphviz # installs: graphviz   
+    conda install -c anaconda pywin32 jupyterlab nodejs # installs: requests, urllib3
+    conda install -c anaconda scikit-image seaborn # installs: matplotlib
+    
+    pip install dotmap    
+    conda install -c anaconda pytest coverage pylint pytest-cov flake8
+    pip install opencv-python
+```
+
+Requirements
+
+```bash
+    conda activate augmentation
+    pip freeze -r docs/filter.txt > requirements.txt
+```
+
+whereby filter.txt does not include `python-graphviz`, `pywin32`, `nodejs`.
+
+<br>
+<br>
+
+## Running
+
+### In Brief
 
 This package is used to create/prepare image augmentations for deep convolution neural network modelling.   At present, each augmentation is a square image, albeit three channelled.  [local: python src/main.py [yaml](https://raw.githubusercontent.com/greyhypotheses/dictionaries/develop/augmentation/variables.yml) --sample 64]
 
@@ -37,7 +78,9 @@ docker run -v ~/images:/app/images greyhypotheses/derma:augmentation
 <br>
 <br>
 
-## Steps
+### In Detail
+
+#### Outline of Steps
 
 <img src="docs/regular.png" width="400" style="float:middle;">
 
@@ -46,7 +89,7 @@ The entry point, control centre, of this repository/package is [src/main.py](./s
 <br>
 <br>
 
-## Running
+#### Notes
 
 The augmentation algorithms of this repository are ran via a container of a Docker image.  The image is created by GitHub Actions using this repository's [Dockerfile](./Dockerfile), and automatically pushed to Docker Hub section [greyhypotheses/derma:augmentation](https://hub.docker.com/r/greyhypotheses/derma/tags).
 
@@ -56,7 +99,7 @@ Thus far the image has been pulled & ran within an Amazon EC2 Linux machine:
 
 <br>
 
-### Via a Docker Container
+##### Docker Container
 
 In the code snippet below, the required image is *pulled* from Docker Hub after ascertaining that docker is running.  Foremost, to access the EC2 machine
 
@@ -71,7 +114,7 @@ chmod 400 {key pair name}.pem
 ```
 
 
-#### Is docker running?
+**Is docker running?**
 
 ```bash
 # Update the environment
@@ -95,7 +138,7 @@ docker info
 ```
 
 
-#### Hence, pull the image
+**Hence, pull the image**
 
 ```bash
 
@@ -105,7 +148,7 @@ docker pull greyhypotheses/derma:augmentation
 ```
 
 
-#### Run a container
+**Run a container**
 
 Running a container of the image, as outlined below, runs the algorithms of this repository.  The resulting images are zipped.  If access to a cloud repository is available, a method that automatically transfers the files to the cloud repository can be added to [main.py](./src/main.py).
 
@@ -123,7 +166,7 @@ cd images
 ls | wc -l
 ```
 
-#### Download Option
+**Results Download Option**
 
 Case local:
 
@@ -136,7 +179,7 @@ scp -i {key pair name}.pem -r ec2-user@{IPv4 Public IP}:~/.../*.zip {local direc
 <br>
 <br>
 
-### Docker Help Notes
+## Docker Help Notes
 
 In the case of *group* actions
 
