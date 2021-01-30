@@ -5,7 +5,7 @@ VERSION = '0.0.1'
 DESCRIPTION = 'Exploring image augmentation'
 AUTHOR = 'greyhypotheses'
 URL = 'https://github.com/greyhypotheses/augmentation'
-PYTHON_REQUIRES = '=3.7.5'
+PYTHON_REQUIRES = '=3.7.9'
 
 with open('README.md') as f:
     readme_text = f.read()
